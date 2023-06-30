@@ -1,4 +1,4 @@
-package com.example.wayaware
+package com.example.wayaware_app
 
 import io.flutter.embedding.android.FlutterActivity
 
