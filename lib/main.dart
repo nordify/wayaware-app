@@ -14,8 +14,18 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(BlocProvider(
-    create: (_) => SeniorModeBloc(false),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => AuthStateBloc(),
+      ),
+      BlocProvider(
+        create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
+      ),
+      BlocProvider(
+        create: (_) => SeniorModeBloc(false),
+      ),
+    ],
     child: const MyApp(),
   ));
 }
@@ -67,8 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
       ),
-      body: TextButton(onPressed: () => Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
-      builder: (BuildContext context) => const LoginPage())), child: Text("eee")),
+      body: TextButton(
+          onPressed: () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const LoginPage())),
+          child: Text("eee")),
     );
   }
 }
