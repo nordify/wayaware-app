@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "288581583177",
+    "project_id": "wayaware-app",
+    "storage_bucket": "wayaware-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288581583177:android:3de30d8a4c04b447629a98",
+        "android_client_info": {
+          "package_name": "com.example.wayaware_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288581583177-b8gv4jne9hf6i68atajjsv69l15m5c62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb61RWigx7IpodkKJGzUN4BCN9PTzO4B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288581583177-b8gv4jne9hf6i68atajjsv69l15m5c62.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
