@@ -1,12 +1,35 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:math';
-
 import 'package:curved_gradient/curved_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wayaware_app/bloc/auth_state_bloc.dart';
+import 'package:wayaware_app/bloc/auth_user_bloc.dart';
 import 'package:wayaware_app/bloc/senior_mode_bloc.dart';
+import 'package:wayaware_app/firebase_options.dart';
+import 'package:wayaware_app/login/login_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => AuthStateBloc(),
+      ),
+      BlocProvider(
+        create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
+      ),
+      BlocProvider(
+        create: (_) => SeniorModeBloc(false),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,9 +43,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: BlocProvider(
-          create: (context) => SeniorModeBloc(false),
-          child: const MyHomePage()),
+    home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AuthStateBloc(),
+          ),
+          BlocProvider(
+            create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
+          ),
+          BlocProvider(create: (_) => SeniorModeBloc(false))
+        ],
+        child: MyHomePage(),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -41,7 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          toolbarHeight: 80,
+        backgroundColor: Colors.black,
+        title: const Text(
+          "wayaware",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        ),
+      ),
+        toolbarHeight: 80,
           backgroundColor: Colors.black,
           title: SizedBox(
               height: 60,
