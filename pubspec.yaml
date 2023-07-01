@@ -30,6 +30,8 @@ environment:
 dependencies:
   apple_maps_flutter:
     git: https://github.com/nordify/apple_maps_flutter.git
+  flutter_neumorphic:
+    git: https://github.com/gustomedialab/Flutter-Neumorphic.git
   flutter:
     sdk: flutter
 
@@ -41,6 +43,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.1
   firebase_core: ^2.14.0
+  curved_gradient: ^0.2.2
   firebase_auth: ^4.6.3
   google_sign_in: ^6.1.4
 
@@ -78,6 +81,10 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  assets:
+    - assets/app_icon.png
+    - assets/app_icon_inverted.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
