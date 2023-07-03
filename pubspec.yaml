@@ -47,6 +47,7 @@ dependencies:
   firebase_auth: ^4.6.3
   google_sign_in: ^6.1.4
   sign_in_with_apple: ^5.0.0
+  package_info_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,7 @@ flutter:
   assets:
     - assets/app_icon.png
     - assets/app_icon_inverted.png
+    - assets/app_icon_transparent.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
