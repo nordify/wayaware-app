@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
           toolbarHeight: 80,
           backgroundColor: Colors.black,
@@ -48,53 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Image.asset(
                 "assets/app_icon_inverted.png",
               ))),
-      body: Stack(children: [
-        //_getVerticalGradient(context, VerticalDirection.up),
-        _getDiagonalGradient(context)
-      ]),
+      body: Stack(children: []),
     );
   }
-}
-
-Widget _getVerticalGradient(BuildContext context, VerticalDirection direction) {
-  return Align(
-    alignment: direction == VerticalDirection.up
-        ? Alignment.topCenter
-        : Alignment.bottomCenter,
-    child: Container(
-      height: MediaQuery.sizeOf(context).height / 5,
-      decoration: BoxDecoration(
-          gradient: CurvedGradient(
-              begin: direction == VerticalDirection.up
-                  ? Alignment.bottomCenter
-                  : Alignment.topCenter,
-              end: direction == VerticalDirection.up
-                  ? Alignment.topCenter
-                  : Alignment.bottomCenter,
-              colors: [
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.0)
-              ],
-              granularity: 999,
-              curveGenerator: (x) => pow(sqrt(x), 6) as double)),
-    ),
-  );
-}
-
-Widget _getDiagonalGradient(BuildContext context) {
-  return Positioned.fill(
-    child: Container(
-      height: MediaQuery.sizeOf(context).height / 5,
-      decoration: BoxDecoration(
-          gradient: CurvedGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.black.withOpacity(0.5),
-                Colors.black.withOpacity(0.1)
-              ],
-              granularity: 999,
-              curveGenerator: (x) => pow(sqrt(x), 6) as double)),
-    ),
-  );
 }
