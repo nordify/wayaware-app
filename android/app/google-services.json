@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:288581583177:android:3de30d8a4c04b447629a98",
+        "mobilesdk_app_id": "1:288581583177:android:35f127e7f3859ce4629a98",
         "android_client_info": {
-          "package_name": "com.example.wayaware_app"
+          "package_name": "dev.nordify.wayaware"
         }
       },
       "oauth_client": [
         {
-          "client_id": "288581583177-6l19ph11ouel5sqpud2dmmnhnqmchivv.apps.googleusercontent.com",
+          "client_id": "288581583177-lm83oeohq6po4lfd3scuigkvlhf76niq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.wayaware_app",
+            "package_name": "dev.nordify.wayaware",
             "certificate_hash": "940306825b3f530d5849df56f43e15491e56c8cd"
           }
         },
