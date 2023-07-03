@@ -30,8 +30,6 @@ environment:
 dependencies:
   apple_maps_flutter:
     git: https://github.com/nordify/apple_maps_flutter.git
-  flutter_neumorphic:
-    git: https://github.com/gustomedialab/Flutter-Neumorphic.git
   flutter:
     sdk: flutter
 

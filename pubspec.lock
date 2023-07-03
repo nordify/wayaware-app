@@ -239,15 +239,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  flutter_neumorphic:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "2d080216c0a876b927c97cee1a92f1695e77b9ce"
-      url: "https://github.com/gustomedialab/Flutter-Neumorphic.git"
-    source: git
-    version: "3.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

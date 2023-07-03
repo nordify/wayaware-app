@@ -12,7 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  await FirebaseAuth.instance.signOut();
 
   runApp(MultiBlocProvider(
     providers: [
@@ -38,9 +37,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wayaware',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: ThemeData(),
       home: MultiBlocProvider(
         providers: [
           BlocProvider(

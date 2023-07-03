@@ -20,5 +20,4 @@ class SeniorModeBloc extends Bloc<SeniorModeEvent, bool> {
   Future<void> _onModeChange(ModeChange event, Emitter<bool> emit) async {
     return emit(event.value);
   }
-  
 }

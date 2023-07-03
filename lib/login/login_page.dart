@@ -18,8 +18,7 @@ class _LoginPageState extends State<LoginPage>
 
   final double _initialScale = 1.0;
   final double _targetScale = 1.05;
-  final int _animationDuration =
-      3000;
+  final int _animationDuration = 3000;
 
   Future<void> _setPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -57,14 +56,14 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned.fill(
               child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [Colors.white, Colors.grey.shade300],
+                    colors: [Colors.white, Colors.white],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
           )),
