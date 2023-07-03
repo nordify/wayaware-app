@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wayaware/backend/authentication.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,16 +19,18 @@ class _LoginPageState extends State<LoginPage>
   final double _initialScale = 1.0;
   final double _targetScale = 1.05;
   final int _animationDuration =
-      3000; // Adjust the animation duration (in milliseconds)
+      3000;
+
+  Future<void> _setPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      versionNumber = packageInfo.version;
+    });
+  }
 
   @override
   void initState() {
-    PackageInfo.fromPlatform().then((packageInfo) {
-      setState(() {
-        versionNumber = packageInfo.version;
-        print("test");
-      });
-    });
+    _setPackageInfo();
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: _animationDuration),
