@@ -50,4 +50,8 @@ class Authentication {
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on SignInWithAppleAuthorizationException catch (_) {}
   }
+
+  static Future<void> signOut() async {
+    FirebaseAuth.instance.signOut();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wayaware/backend/authentication.dart';
 
@@ -9,8 +10,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
@@ -18,14 +18,23 @@ class _LoginPageState extends State<LoginPage>
 
   final double _initialScale = 1.0;
   final double _targetScale = 1.05;
-  final int _animationDuration =
-      3000;
+  final int _animationDuration = 3000;
 
   Future<void> _setPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       versionNumber = packageInfo.version;
     });
+  }
+
+  Future<void> _signInWithGoogle() async {
+    HapticFeedback.mediumImpact();
+    Authentication.signInWithGoogle();
+  }
+
+  Future<void> _signInWithApple() async {
+    HapticFeedback.mediumImpact();
+    Authentication.signInWithApple();
   }
 
   @override
@@ -63,10 +72,7 @@ class _LoginPageState extends State<LoginPage>
           Positioned.fill(
               child: Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.white, Colors.grey.shade300],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
+                gradient: LinearGradient(colors: [Colors.white, Colors.grey.shade300], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           )),
           Center(
             child: Padding(
@@ -95,7 +101,7 @@ class _LoginPageState extends State<LoginPage>
                     width: double.infinity,
                     height: 65,
                     child: ElevatedButton.icon(
-                      onPressed: () => Authentication.signInWithApple(),
+                      onPressed: () => _signInWithApple(),
                       icon: Padding(
                         padding: const EdgeInsets.only(right: 3),
                         child: SizedBox(
@@ -121,7 +127,7 @@ class _LoginPageState extends State<LoginPage>
                     width: double.infinity,
                     height: 65,
                     child: ElevatedButton.icon(
-                      onPressed: () => Authentication.signInWithGoogle(),
+                      onPressed: () => _signInWithGoogle(),
                       icon: Padding(
                         padding: const EdgeInsets.only(left: 1.0),
                         child: SizedBox(
