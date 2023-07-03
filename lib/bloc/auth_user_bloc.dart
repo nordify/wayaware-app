@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wayaware_app/bloc/auth_state_bloc.dart';
+import 'package:wayaware/bloc/auth_state_bloc.dart';
 
 sealed class AuthUserEvent {
   const AuthUserEvent();

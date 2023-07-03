@@ -1,7 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:wayaware_app/backend/authentication.dart';
+import 'package:wayaware/backend/authentication.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
