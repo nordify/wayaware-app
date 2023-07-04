@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wayaware/map/map_page.dart';
-import 'package:wayaware/settings_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wayaware/pages/map_page.dart';
+import 'package:wayaware/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,11 +32,7 @@ class _MyHomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MapPage();
-                      },
-                    ));
+                    context.push('/map');
                   },
                   child: const Text("Map"),
                 )),
@@ -46,11 +43,7 @@ class _MyHomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const SettingsPage();
-                      },
-                    ));
+                    context.push('/settings');
                   },
                   child: const Text("Settings"),
                 )),

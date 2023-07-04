@@ -18,6 +18,10 @@ class AuthUserBloc extends Bloc<AuthUserEvent, User?> {
   AuthUserBloc(this._authStateBloc) : super(null) {
     on<_AuthUserChange>(_onAuthUserChange);
 
+     if (_authStateBloc.state == AuthState.authenticated) {
+      add(_AuthUserChange(FirebaseAuth.instance.currentUser));
+    }
+
     _authStateBlocSubscription = _authStateBloc.stream.
       listen((state) => add(_AuthUserChange(FirebaseAuth.instance.currentUser)));
   }
