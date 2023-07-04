@@ -7,7 +7,6 @@ import 'package:wayaware/bloc/senior_mode_bloc.dart';
 import 'package:wayaware/bloc/wayaware_bloc_observer.dart';
 import 'package:wayaware/home.dart';
 import 'package:wayaware/login/login_page.dart';
-import 'package:wayaware/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,18 +39,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Wayaware',
       theme: ThemeData(),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => AuthStateBloc(),
-          ),
-          BlocProvider(
-            create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
-          ),
-          BlocProvider(create: (_) => SeniorModeBloc(false))
-        ],
-        child: const AppNavigation(),
-      ),
+      home: const AppNavigation(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="wayaware_app"
+        android:label="Wayaware"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

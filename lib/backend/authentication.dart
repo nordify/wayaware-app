@@ -31,7 +31,7 @@ class Authentication {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'dev.nordify.wayaware',
+          clientId: 'dev.nordify.wayawarelogin',
           redirectUri: Uri.parse(
             'https://wayaware-app.firebaseapp.com/__/auth/handler',
           ),
