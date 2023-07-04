@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wayaware/backend/authentication.dart';
-import 'package:wayaware/bloc/senior_mode_bloc.dart';
+import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -35,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocBuilder<SeniorModeBloc, bool>(builder: (context, state) {
+            BlocBuilder<AccessibilityModeBloc, bool>(builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state, onChanged: (value) => context.read<SeniorModeBloc>().add(ModeChange(value)), activeColor: Colors.black),
+                      value: state, onChanged: (value) => context.read<AccessibilityModeBloc>().add(ModeChange(value)), activeColor: Colors.black),
                 ],
               );
             }),
