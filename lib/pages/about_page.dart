@@ -20,8 +20,7 @@ class AboutPage extends StatelessWidget {
             const Text('About', style: TextStyle(fontSize: 30, color: Colors.white)),
           ],
         ),
-        )
-      ),
+        ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
