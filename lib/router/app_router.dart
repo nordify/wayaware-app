@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
 import 'package:wayaware/pages/splash_screen.dart';
+import 'package:wayaware/utils/navbar.dart';
 
 class AppRouter {
   final BuildContext appContext;
@@ -22,7 +24,7 @@ class AppRouter {
   }
 
   late final GoRouter _goRouter = GoRouter(
-      initialLocation: '/',
+      initialLocation: '/map',
       routes: [
         GoRoute(
             path: '/',
@@ -34,7 +36,12 @@ class AppRouter {
               );
             },
             routes: [
-              GoRoute(path: 'map', builder: (context, state) => const MapPage()),
+              ShellRoute(
+                routes: [
+                  GoRoute(path: 'map', builder: (context, state) => const MapPage()),
+                  GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
+              ],
+              builder: (context, state, child) => WNavbar(child: child)),
               GoRoute(
                   path: 'settings',
                   builder: (context, state) {
@@ -42,7 +49,7 @@ class AppRouter {
                   })
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-        GoRoute(path: '/splash', builder: (context, state) => const SplashScreen())
+        GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
       ],
       redirect: (context, state) {
         final appState = _appStateCubit.state;
@@ -51,7 +58,7 @@ class AppRouter {
 
         if (appState == AppState.unkown) return "/splash";
         if (appState == AppState.unauthenticated) return "/login";
-        if (isOnLoginPage) return "/";
+        if (isOnLoginPage) return "/map";
 
         return null;
       },

@@ -6,6 +6,7 @@ import 'package:wayaware/bloc/auth_state_bloc.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
 import 'package:wayaware/bloc/wayaware_bloc_observer.dart';
 import 'package:wayaware/router/app_router.dart';
+import 'package:wayaware/utils/scroll_behavior.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class App extends StatelessWidget {
       title: 'Wayaware',
       theme: ThemeData(),
       routerConfig: AppRouter(context).router,
+      builder: (context, child) => ScrollConfiguration(behavior: WScrollBehavior(), child: child ?? Container()),
       debugShowCheckedModeBanner: false,
     );
   }
