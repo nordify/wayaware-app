@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                       label: const Text('Login with Google'),
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.grey[200],
                         foregroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
