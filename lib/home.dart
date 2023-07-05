@@ -1,10 +1,7 @@
-import 'dart:math';
-
-import 'package:curved_gradient/curved_gradient.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wayaware/about.dart';
-import 'package:wayaware/map/map_page.dart';
-import 'package:wayaware/settings_page.dart';
+import 'package:wayaware/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,17 +28,24 @@ class _MyHomePageState extends State<HomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Container(
+            child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return MapPage();
-                      },
-                    ));
+                    context.push('/map');
                   },
-                  child: Text("Map"),
+                  child: const Text("Map"),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.push('/settings');
+                  },
+                  child: const Text("Settings"),
                 )),
           ),
           Padding(
@@ -64,20 +68,27 @@ class _MyHomePageState extends State<HomePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Container( 
+            child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 26, 164, 35)), // Hier wird die Hintergrundfarbe des Buttons festgelegt
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const ScrollPage();
-                      },
-                    ));
+                    context.push('/map');
                   },
-                  child: Text("About"),
+                  child: const Text("Map"),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.push('/settings');
+                  },
+                  child: const Text("Settings"),
                 )),
           ),
         ],

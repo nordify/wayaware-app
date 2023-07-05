@@ -25,8 +25,7 @@ class _MapPageState extends State<MapPage> {
         backgroundColor: Colors.black,
       ),
       body: AppleMap(
-        initialCameraPosition:
-            CameraPosition(target: LatLng(53.508231, 9.999649), zoom: 14),
+        initialCameraPosition: CameraPosition(target: LatLng(53.508231, 9.999649), zoom: 14),
       ),
     );
   }
