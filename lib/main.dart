@@ -7,7 +7,6 @@ import 'package:wayaware/bloc/senior_mode_bloc.dart';
 import 'package:wayaware/bloc/wayaware_bloc_observer.dart';
 import 'package:wayaware/home.dart';
 import 'package:wayaware/login/login_page.dart';
-import 'package:wayaware/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,7 +1,5 @@
-import 'dart:math';
-
-import 'package:curved_gradient/curved_gradient.dart';
 import 'package:flutter/material.dart';
+import 'package:wayaware/legend.dart';
 import 'package:wayaware/map/map_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +38,21 @@ class _MyHomePageState extends State<HomePage> {
                     ));
                   },
                   child: Text("Map"),
+                )),
+          ),
+           Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return LegendPage();
+                      },
+                    ));
+                  },
+                  child: Text("Legend"),
                 )),
           ),
         ],
