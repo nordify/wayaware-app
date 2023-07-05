@@ -12,30 +12,40 @@ import 'package:wayaware/pages/splash_screen.dart';
 
 class AppRouter {
   final BuildContext appContext;
-  late final AppStateCubit appStateCubit;
+  late final AppStateCubit _appStateCubit;
   GoRouter get router => _goRouter;
 
+  AccessibilityModeBloc? _accessibilityModeBloc;
+
   AppRouter(this.appContext) {
-    appStateCubit = appContext.read<AppStateCubit>();
-    print(appContext.read<AuthUserBloc>().state);
+    _appStateCubit = appContext.read<AppStateCubit>();
   }
 
   late final GoRouter _goRouter = GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(path: '/', builder: (_, __) => const HomePage()),
-        GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
-        GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
-        GoRoute(path: '/map', builder: (_, __) => const MapPage()),
         GoRoute(
-            path: '/settings',
+            path: '/',
             builder: (context, state) {
-              print(appContext.read<AuthUserBloc>().state);
-              return SettingsPage();
-            }),
+              return BlocProvider(
+                lazy: false,
+                create: (context) => _accessibilityModeBloc = AccessibilityModeBloc(appContext.read<AuthUserBloc>().state!),
+                child: const HomePage(),
+              );
+            },
+            routes: [
+              GoRoute(path: 'map', builder: (context, state) => const MapPage()),
+              GoRoute(
+                  path: 'settings',
+                  builder: (context, state) {
+                    return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
+                  })
+            ]),
+        GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+        GoRoute(path: '/splash', builder: (context, state) => const SplashScreen())
       ],
       redirect: (context, state) {
-        final appState = appStateCubit.state;
+        final appState = _appStateCubit.state;
 
         final bool isOnLoginPage = state.matchedLocation == '/login';
 
@@ -45,5 +55,5 @@ class AppRouter {
 
         return null;
       },
-      refreshListenable: appStateCubit);
+      refreshListenable: _appStateCubit);
 }
