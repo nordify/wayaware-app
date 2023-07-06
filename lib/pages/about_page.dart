@@ -35,8 +35,8 @@ class _AboutPageState extends State<AboutPage>
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 20, bottom: 15),
                   child: const Text(
-                    'Unsere Mission',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Way-Aware',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Container(

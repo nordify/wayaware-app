@@ -48,7 +48,7 @@ class _FaqPageState extends State<FaqPage> {
         backgroundColor: Colors.black,
         toolbarHeight: 80,
         title: GestureDetector(
-          onTap: () => context.go('/home'),
+          onTap: () => context.go('/about'),
           child: Row(
             children: [
               Image.asset(
@@ -67,44 +67,6 @@ class _FaqPageState extends State<FaqPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              color: Colors.black,
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.go('/about'),
-                          icon: const Icon(Icons.info, color: Colors.white),
-                        ),
-                        const Text(
-                          'About',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.go('/contact'),
-                          icon: const Icon(Icons.contact_mail,
-                              color: Colors.white),
-                        ),
-                        const Text(
-                          'Kontakt',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -187,6 +149,44 @@ class _FaqPageState extends State<FaqPage> {
                         ),
                       );
                     },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.black,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () => context.go('/about'),
+                          icon: const Icon(Icons.info, color: Colors.white),
+                        ),
+                        const Text(
+                          'About',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () => context.go('/contact'),
+                          icon: const Icon(Icons.contact_mail,
+                              color: Colors.white),
+                        ),
+                        const Text(
+                          'Kontakt',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
