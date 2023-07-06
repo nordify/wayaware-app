@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:wayaware/bloc/senior_mode_bloc.dart';
 import 'package:wayaware/bloc/wayaware_bloc_observer.dart';
 import 'package:wayaware/home.dart';
 import 'package:wayaware/login/login_page.dart';
-import 'package:wayaware/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
