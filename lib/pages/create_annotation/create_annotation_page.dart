@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/backend/annotations.dart';
 import 'package:wayaware/backend/models/annotation.dart';
 
 class CreateAnnotationPage extends StatefulWidget {
@@ -15,31 +18,79 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
   final TextEditingController _textFieldController = TextEditingController();
   List<File> _selectedImages = [];
   List<Widget> _gridWidgets = [];
+  String _selectedType = "";
 
   Future<void> _setAddPictureWidget() async {
     setState(() {
-      _gridWidgets.add(ClipRRect(
-        child: Container(
-          color: Colors.grey,
-          child: const Column(children: [Text("Add"), Icon(Icons.add)]),
+      _gridWidgets.add(GestureDetector(
+        onTap: _takeImage,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12.0),
+          child: Container(
+            color: Colors.grey.shade400,
+            child: const Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Icon(
+                Icons.add_a_photo,
+                color: Colors.white,
+                size: 40,
+              ),
+              SizedBox(height: 5),
+              Text(
+                "Add Picture",
+                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+              )
+            ]),
+          ),
         ),
       ));
     });
   }
 
   Future<void> _takeImage() async {
+    HapticFeedback.heavyImpact();
     final imagePath = await context.push<String>('/createAnnotation/camera');
     if (imagePath != null) {
+      final imageFile = File(imagePath);
       setState(() {
-        _selectedImages.add(File(imagePath));
+        _gridWidgets.add(ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Image.file(
+              imageFile,
+              fit: BoxFit.cover,
+            )));
+        _selectedImages.add(imageFile);
       });
     }
+  }
+
+  Future<void> _saveAnnotation() async {
+    List<String> imageIds = [];
+
+    for (final imageFile in _selectedImages) {
+      final imageId = await Annotations.uploadImage(imageFile);
+      if (imageId == null) continue;
+      imageIds.add(imageId);
+    }
+
+    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, timeLimit: const Duration(seconds: 8));
+
+    await Annotations.addAnnotation(_selectedType, _textFieldController.text, position, imageIds);
+  }
+
+  Future<void> _test() async {
+    final test = await Annotations.getAnnotation('a243abde-45e9-4655-9c16-ab0592ad9687');
+    print(test?.id);
+    print(test?.latitude);
+    print(test?.altitude);
+    print(test?.longitude);
+    print(test?.images);
   }
 
   @override
   void initState() {
     _setAddPictureWidget();
     super.initState();
+    _test();
   }
 
   @override
@@ -83,9 +134,7 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               }).toList(),
               onChanged: (String? selectedValue) {
                 if (selectedValue != null) {
-                  setState(() {
-                    // Do something with the selected value
-                  });
+                  _selectedType = selectedValue;
                 }
               },
               decoration: const InputDecoration(
@@ -93,25 +142,36 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               ),
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _takeImage,
-              child: const Text('Add Images'),
-            ),
-            const SizedBox(height: 16.0),
             if (_gridWidgets.isNotEmpty)
               Expanded(
                 child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of columns in the grid
-                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 7.5),
                   itemCount: _gridWidgets.length,
                   itemBuilder: (BuildContext context, int index) {
-                    // Access the image data using imageList[index]
-                    // Here you can return a widget to display the image
                     return _gridWidgets.reversed.toList()[index];
                   },
                 ),
               ),
+            SizedBox(
+              width: double.infinity,
+              height: 65,
+              child: ElevatedButton(
+                onPressed: _saveAnnotation,
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: const Text(
+                  "Save",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),
