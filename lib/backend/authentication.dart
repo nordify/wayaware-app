@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -31,7 +30,7 @@ class Authentication {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'dev.nordify.wayaware',
+          clientId: 'dev.nordify.wayawarelogin',
           redirectUri: Uri.parse(
             'https://wayaware-app.firebaseapp.com/__/auth/handler',
           ),
