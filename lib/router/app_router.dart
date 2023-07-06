@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
-import 'package:wayaware/pages/home_page.dart';
+import 'package:wayaware/home.dart';
+import 'package:wayaware/pages/create_annotation/camera_page.dart';
+import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/login_page.dart';
-import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
 import 'package:wayaware/pages/splash_screen.dart';
 import 'package:wayaware/utils/navbar.dart';
@@ -38,13 +38,22 @@ class AppRouter {
               );
             },
             routes: [
+              ShellRoute(
+                routes: [
+                  GoRoute(path: 'map', builder: (context, state) => const MapPage()),
+                  GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
+                  GoRoute(path: 'faq', builder: (context, state) => const FaqPage()),
+                  GoRoute(path: 'contact', builder: (context, state) => const ContactPage()),              
+              ],
+              builder: (context, state, child) => WNavbar(child: child)),
               GoRoute(
                   path: 'settings',
                   builder: (context, state) {
-                    return BlocProvider.value(
-                        value: _accessibilityModeBloc!,
-                        child: const SettingsPage());
-                  })
+                    return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
+                  }),
+                  GoRoute(path: 'createAnnotation', builder: (context, state) => const CreateAnnotationPage(), routes: [
+                    GoRoute(path: 'camera', builder: (context, state) => CameraPage())
+                  ])
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
         GoRoute(

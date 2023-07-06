@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FaqPage extends StatelessWidget {
-  const FaqPage({super.key});
+class ContactPage extends StatelessWidget {
+  const ContactPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,7 @@ class FaqPage extends StatelessWidget {
                 height: 75,
               ),
               const SizedBox(width: 20),
-              const Text('FAQ',
-                  style: TextStyle(fontSize: 30, color: Colors.white)),
+              const Text('Kontakt', style: TextStyle(fontSize: 30, color: Colors.white)),
             ],
           ),
         ),
@@ -54,12 +53,11 @@ class FaqPage extends StatelessWidget {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () => context.go('/contact'),
-                          icon: const Icon(Icons.contact_mail,
-                              color: Colors.white),
+                          onPressed: () => context.go('/faq'),
+                          icon: const Icon(Icons.question_answer, color: Colors.white),
                         ),
                         const Text(
-                          'Kontakt',
+                          'FAQ',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],
