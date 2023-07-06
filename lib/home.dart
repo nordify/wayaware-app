@@ -52,11 +52,20 @@ class _MyHomePageState extends State<HomePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Container( 
+            child: SizedBox( 
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => context.go('/settings'),
                   child: const Text("Settings"),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox( 
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => context.go('/createAnnotation'),
+                  child: const Text("Create Annotation"),
                 )),
           ),
         ],

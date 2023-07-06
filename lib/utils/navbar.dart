@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,7 +17,7 @@ class WNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
@@ -30,8 +31,8 @@ class WNavbar extends StatelessWidget {
         currentIndex: _calculateSelectedIndex(context),
         onTap: (int idx) => _onItemTapped(idx, context),
         backgroundColor: Colors.black,
-        unselectedItemColor: Colors.grey[200],
-        selectedItemColor: Colors.white,
+        activeColor: Colors.grey[200],
+        inactiveColor: Colors.white,
       ),
     );
   }
