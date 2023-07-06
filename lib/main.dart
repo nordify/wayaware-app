@@ -24,7 +24,9 @@ void main() async {
         lazy: false,
         create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
       ),
-      BlocProvider(lazy: false, create: (context) => AppStateCubit(context.read<AuthStateBloc>()))
+      BlocProvider(
+          lazy: false,
+          create: (context) => AppStateCubit(context.read<AuthStateBloc>()))
     ],
     child: const App(),
   ));
@@ -40,7 +42,8 @@ class App extends StatelessWidget {
       title: 'Wayaware',
       theme: ThemeData(),
       routerConfig: AppRouter(context).router,
-      builder: (context, child) => ScrollConfiguration(behavior: WScrollBehavior(), child: child ?? Container()),
+      builder: (context, child) => ScrollConfiguration(
+          behavior: WScrollBehavior(), child: child ?? Container()),
       debugShowCheckedModeBanner: false,
     );
   }
