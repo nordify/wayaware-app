@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/legend.dart';
+import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
@@ -21,7 +23,7 @@ class AppRouter {
   late final AppStateCubit _appStateCubit;
   GoRouter get router => _goRouter;
 
-  AccessibilityModeBloc? _accessibilityModeBloc;
+  UserSettingsBloc? _accessibilityModeBloc;
 
   AppRouter(this.appContext) {
     _appStateCubit = appContext.read<AppStateCubit>();
@@ -36,7 +38,7 @@ class AppRouter {
               return BlocProvider(
                 lazy: false,
                 create: (context) => _accessibilityModeBloc =
-                    AccessibilityModeBloc(
+                    UserSettingsBloc(
                         appContext.read<AuthUserBloc>().state!),
                 child: const HomePage(),
               );
