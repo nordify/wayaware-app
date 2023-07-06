@@ -52,6 +52,19 @@ class _MyHomePageState extends State<HomePage> {
                   child: const Text("Map"),
                 )),
           ),
+           Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<
+                        Color>(Color.fromARGB(255, 164, 111, 26)), // Hier wird die Hintergrundfarbe des Buttons festgelegt
+                  ),
+                  onPressed: () => context.go('/legend'),
+                  child: const Text("Legend"),
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(

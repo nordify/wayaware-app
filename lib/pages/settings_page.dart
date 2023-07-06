@@ -35,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocBuilder<AccessibilityModeBloc, bool>(builder: (context, state) {
+            BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,37 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state, onChanged: (value) => context.read<AccessibilityModeBloc>().add(ModeChange(value)), activeColor: Colors.black),
+                      value: state['accessibility_mode'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'accessibility_mode': value})), activeColor: Colors.black),
+                ],
+              );
+            }),
+             BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Contrast Mode",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  Switch.adaptive(
+                      value: state['contrast_mode'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'contrast_mode': value})), activeColor: Colors.black),
+                ],
+              );
+            }),
+             BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Keep Screen On",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  Switch.adaptive(
+                      value: state['screen_alway_on'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'screen_alway_on': value})), activeColor: Colors.black),
                 ],
               );
             }),

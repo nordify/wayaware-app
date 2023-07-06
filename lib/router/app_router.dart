@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/legend.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
@@ -17,7 +18,7 @@ class AppRouter {
   late final AppStateCubit _appStateCubit;
   GoRouter get router => _goRouter;
 
-  AccessibilityModeBloc? _accessibilityModeBloc;
+  UserSettingsBloc? _accessibilityModeBloc;
 
   AppRouter(this.appContext) {
     _appStateCubit = appContext.read<AppStateCubit>();
@@ -31,7 +32,7 @@ class AppRouter {
             builder: (context, state) {
               return BlocProvider(
                 lazy: false,
-                create: (context) => _accessibilityModeBloc = AccessibilityModeBloc(appContext.read<AuthUserBloc>().state!),
+                create: (context) => _accessibilityModeBloc = UserSettingsBloc(appContext.read<AuthUserBloc>().state!),
                 child: const HomePage(),
               );
             },
@@ -46,7 +47,9 @@ class AppRouter {
                   path: 'settings',
                   builder: (context, state) {
                     return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
-                  })
+                  }),
+                  GoRoute(path: "legend",builder: (context, state) => LegendPage(),)
+    
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
         GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
