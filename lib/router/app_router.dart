@@ -7,6 +7,8 @@ import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
 import 'package:wayaware/home.dart';
+import 'package:wayaware/pages/create_annotation/camera_page.dart';
+import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
@@ -41,6 +43,8 @@ class AppRouter {
                 routes: [
                   GoRoute(path: 'map', builder: (context, state) => const MapPage()),
                   GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
+                  GoRoute(path: 'faq', builder: (context, state) => const FaqPage()),
+                  GoRoute(path: 'contact', builder: (context, state) => const ContactPage()),              
               ],
               builder: (context, state, child) => WNavbar(child: child)),
               GoRoute(
@@ -48,8 +52,9 @@ class AppRouter {
                   builder: (context, state) {
                     return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
                   }),
-                  GoRoute(path: "legend",builder: (context, state) => LegendPage(),)
-    
+                  GoRoute(path: 'createAnnotation', builder: (context, state) => const CreateAnnotationPage(), routes: [
+                    GoRoute(path: 'camera', builder: (context, state) => CameraPage())
+                  ])
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
         GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),

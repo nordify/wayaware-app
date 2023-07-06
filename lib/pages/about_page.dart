@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -20,7 +21,7 @@ class AboutPage extends StatelessWidget {
             const Text('About', style: TextStyle(fontSize: 30, color: Colors.white)),
           ],
         ),
-        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,9 +92,7 @@ class AboutPage extends StatelessWidget {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            // Aktion für den Tipp auf FAQ
-                          },
+                          onPressed: () => context.go('/faq'),
                           icon: const Icon(Icons.question_answer, color: Colors.white),
                         ),
                         const Text(
@@ -107,9 +106,7 @@ class AboutPage extends StatelessWidget {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            // Aktion für den Tipp auf Kontakt
-                          },
+                          onPressed: () => context.go('/contact'),
                           icon: const Icon(Icons.contact_mail, color: Colors.white),
                         ),
                         const Text(
