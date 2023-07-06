@@ -89,7 +89,13 @@ flutter:
     - assets/app_icon.png
     - assets/app_icon_inverted.png
     - assets/app_icon_transparent.png
+    - assets/hindernis_img.jpg
+    - assets/rollstuhl_img.jpg
+    - assets/rentner_img.jpg
+    - assets/treppen_img.jpg
+    - assets/rampe_img.jpg
     - assets/IMG_7265.JPG
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
