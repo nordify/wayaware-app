@@ -57,7 +57,8 @@ class _FaqPageState extends State<FaqPage> {
                 height: 75,
               ),
               const SizedBox(width: 20),
-              const Text('FAQ', style: TextStyle(fontSize: 30, color: Colors.white)),
+              const Text('FAQ',
+                  style: TextStyle(fontSize: 30, color: Colors.white)),
             ],
           ),
         ),
@@ -91,7 +92,8 @@ class _FaqPageState extends State<FaqPage> {
                       children: [
                         IconButton(
                           onPressed: () => context.go('/contact'),
-                          icon: const Icon(Icons.contact_mail, color: Colors.white),
+                          icon: const Icon(Icons.contact_mail,
+                              color: Colors.white),
                         ),
                         const Text(
                           'Kontakt',
