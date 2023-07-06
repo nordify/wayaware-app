@@ -5,7 +5,7 @@ import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
-import 'package:wayaware/home.dart';
+import 'package:wayaware/pages/home_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
@@ -24,32 +24,31 @@ class AppRouter {
   }
 
   late final GoRouter _goRouter = GoRouter(
-      initialLocation: '/map',
+      initialLocation: '/',
       routes: [
         GoRoute(
             path: '/',
             builder: (context, state) {
               return BlocProvider(
                 lazy: false,
-                create: (context) => _accessibilityModeBloc = AccessibilityModeBloc(appContext.read<AuthUserBloc>().state!),
+                create: (context) => _accessibilityModeBloc =
+                    AccessibilityModeBloc(
+                        appContext.read<AuthUserBloc>().state!),
                 child: const HomePage(),
               );
             },
             routes: [
-              ShellRoute(
-                routes: [
-                  GoRoute(path: 'map', builder: (context, state) => const MapPage()),
-                  GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
-              ],
-              builder: (context, state, child) => WNavbar(child: child)),
               GoRoute(
                   path: 'settings',
                   builder: (context, state) {
-                    return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
+                    return BlocProvider.value(
+                        value: _accessibilityModeBloc!,
+                        child: const SettingsPage());
                   })
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-        GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
+        GoRoute(
+            path: '/splash', builder: (context, state) => const SplashScreen()),
       ],
       redirect: (context, state) {
         final appState = _appStateCubit.state;
@@ -58,7 +57,7 @@ class AppRouter {
 
         if (appState == AppState.unkown) return "/splash";
         if (appState == AppState.unauthenticated) return "/login";
-        if (isOnLoginPage) return "/map";
+        if (isOnLoginPage) return "/";
 
         return null;
       },

@@ -1,4 +1,6 @@
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wayaware/utils/os_widgets.dart';
@@ -84,6 +86,11 @@ class _MapPageState extends State<MapPage> {
         elevation: 0,
         toolbarHeight: 80,
         backgroundColor: Colors.black,
+        title: Image.asset(
+          'assets/app_icon_inverted.png',
+          width: 75,
+          height: 75,
+        ),
       ),
       body: FutureBuilder(
           future: getLocationFuture,
@@ -95,27 +102,56 @@ class _MapPageState extends State<MapPage> {
               );
             }
 
-            return AppleMap(
-              initialCameraPosition: CameraPosition(
-                  target:
-                      LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                  zoom: 14),
-              mapStyle: MapStyle.light,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              compassEnabled: false,
-              pitchGesturesEnabled: true,
-              annotations: {
-                Annotation(
-                    borderColor: Colors.blueAccent,
-                    selectedBorderColor: Colors.blueAccent,
-                    icon: BitmapDescriptor.fromBytes(testImgBytes),
-                    annotationId: AnnotationId(
-                      "test",
+            return Stack(
+              children: [
+                AppleMap(
+                  initialCameraPosition: CameraPosition(
+                      target:
+                          LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
+                      zoom: 14),
+                  mapStyle: MapStyle.light,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  compassEnabled: false,
+                  pitchGesturesEnabled: true,
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
                     ),
-                    position: LatLng(snapshot.data!.latitude + 0.0005,
-                        snapshot.data!.longitude + 0.0005))
-              },
+                  },
+                  annotations: {
+                    Annotation(
+                        borderColor: Colors.blueAccent,
+                        selectedBorderColor: Colors.blueAccent,
+                        icon: BitmapDescriptor.fromBytes(testImgBytes),
+                        annotationId: AnnotationId(
+                          "test",
+                        ),
+                        position: LatLng(snapshot.data!.latitude + 0.0005,
+                            snapshot.data!.longitude + 0.0005))
+                  },
+                ),
+                Positioned.fromRect(
+                  rect: Rect.fromLTRB(
+                      MediaQuery.of(context).size.width * 19 / 20,
+                      0,
+                      MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height),
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
+                Positioned.fromRect(
+                  rect: Rect.fromLTRB(
+                      0,
+                      0,
+                      MediaQuery.of(context).size.width * 1 / 20,
+                      MediaQuery.of(context).size.height),
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ],
             );
           }),
     );

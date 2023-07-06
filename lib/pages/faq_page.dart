@@ -1,55 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(HomePage());
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(),
-      routes: {
-        '/faq': (context) => FAQPage(),
-        // Weitere Routen hier hinzufügen
-      },
-    );
-  }
-}
-
-class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Willkommen zur Homepage!',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              child: Text('FAQ'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/faq');
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class FAQPage extends StatefulWidget {
   @override
   _FAQPageState createState() => _FAQPageState();
@@ -180,7 +130,8 @@ class _FAQPageState extends State<FAQPage> {
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(userQuestions[userQuestionIndex].question),
+                                  Text(userQuestions[userQuestionIndex]
+                                      .question),
                                   SizedBox(height: 20),
                                   TextField(
                                     onChanged: (value) {

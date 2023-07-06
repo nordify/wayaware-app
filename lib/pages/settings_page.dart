@@ -21,6 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           toolbarHeight: 80,
           backgroundColor: Colors.black,
@@ -30,7 +31,8 @@ class _SettingsPageState extends State<SettingsPage> {
             style: TextStyle(fontWeight: FontWeight.bold),
           )),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20.0, bottom: 40.0, right: 20.0, left: 20.0),
+        padding: const EdgeInsets.only(
+            top: 20.0, bottom: 40.0, right: 20.0, left: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +48,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state, onChanged: (value) => context.read<AccessibilityModeBloc>().add(ModeChange(value)), activeColor: Colors.black),
+                      value: state,
+                      onChanged: (value) => context
+                          .read<AccessibilityModeBloc>()
+                          .add(ModeChange(value)),
+                      activeColor: Colors.black),
                 ],
               );
             }),
