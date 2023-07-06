@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,10 +5,7 @@ import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_state_bloc.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
 import 'package:wayaware/bloc/wayaware_bloc_observer.dart';
-import 'package:wayaware/home.dart';
-import 'package:wayaware/login/login_page.dart';
 import 'package:wayaware/router/app_router.dart';
-import 'package:wayaware/settings_page.dart';
 import 'package:wayaware/utils/scroll_behavior.dart';
 
 void main() async {
@@ -28,7 +24,9 @@ void main() async {
         lazy: false,
         create: (context) => AuthUserBloc(context.read<AuthStateBloc>()),
       ),
-      BlocProvider(lazy: false, create: (context) => AppStateCubit(context.read<AuthStateBloc>()))
+      BlocProvider(
+          lazy: false,
+          create: (context) => AppStateCubit(context.read<AuthStateBloc>()))
     ],
     child: const App(),
   ));
@@ -44,7 +42,8 @@ class App extends StatelessWidget {
       title: 'Wayaware',
       theme: ThemeData(),
       routerConfig: AppRouter(context).router,
-      builder: (context, child) => ScrollConfiguration(behavior: WScrollBehavior(), child: child ?? Container()),
+      builder: (context, child) => ScrollConfiguration(
+          behavior: WScrollBehavior(), child: child ?? Container()),
       debugShowCheckedModeBanner: false,
     );
   }

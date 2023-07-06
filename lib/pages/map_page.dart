@@ -16,6 +16,7 @@ class _MapPageState extends State<MapPage> {
 
   late Uint8List testImgBytes;
 
+  // ignore: unused_field
   final Set<Annotation> _annotations = {};
   /*Future<void> _loadAnnotations() async {
     for (final pictureId in _pictureCache) {
