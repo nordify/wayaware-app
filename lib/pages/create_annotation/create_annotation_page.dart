@@ -77,20 +77,10 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
     await Annotations.addAnnotation(_selectedType, _textFieldController.text, position, imageIds);
   }
 
-  Future<void> _test() async {
-    final test = await Annotations.getAnnotation('a243abde-45e9-4655-9c16-ab0592ad9687');
-    print(test?.id);
-    print(test?.latitude);
-    print(test?.altitude);
-    print(test?.longitude);
-    print(test?.images);
-  }
-
   @override
   void initState() {
     _setAddPictureWidget();
     super.initState();
-    _test();
   }
 
   @override
