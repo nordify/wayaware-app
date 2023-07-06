@@ -107,7 +107,7 @@ class _FaqPageState extends State<FaqPage> {
                               'Frage ${index + 1}:',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(_questions[index].question),
+                            Text("_questions[index].question"),
                             // Hier können weitere Informationen zur Beantwortung der Frage angezeigt werden,
                             // z. B. Textfelder für die Antwort, Buttons zum Liken usw.
                           ],

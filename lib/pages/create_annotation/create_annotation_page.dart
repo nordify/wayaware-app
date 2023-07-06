@@ -13,15 +13,33 @@ class CreateAnnotationPage extends StatefulWidget {
 
 class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
   final TextEditingController _textFieldController = TextEditingController();
-  List<Image> selectedImages = [];
+  List<File> _selectedImages = [];
+  List<Widget> _gridWidgets = [];
+
+  Future<void> _setAddPictureWidget() async {
+    setState(() {
+      _gridWidgets.add(ClipRRect(
+        child: Container(
+          color: Colors.grey,
+          child: const Column(children: [Text("Add"), Icon(Icons.add)]),
+        ),
+      ));
+    });
+  }
 
   Future<void> _takeImage() async {
     final imagePath = await context.push<String>('/createAnnotation/camera');
     if (imagePath != null) {
       setState(() {
-        selectedImages.add(Image.file(File(imagePath)));
+        _selectedImages.add(File(imagePath));
       });
     }
+  }
+
+  @override
+  void initState() {
+    _setAddPictureWidget();
+    super.initState();
   }
 
   @override
@@ -80,14 +98,19 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               child: const Text('Add Images'),
             ),
             const SizedBox(height: 16.0),
-            if (selectedImages.isNotEmpty)
-              GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                children: selectedImages,
+            if (_gridWidgets.isNotEmpty)
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Number of columns in the grid
+                  ),
+                  itemCount: _gridWidgets.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    // Access the image data using imageList[index]
+                    // Here you can return a widget to display the image
+                    return _gridWidgets.reversed.toList()[index];
+                  },
+                ),
               ),
           ],
         ),
