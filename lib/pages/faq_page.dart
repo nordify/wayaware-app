@@ -25,6 +25,63 @@ class FaqPage extends StatelessWidget {
           ),
         ),
       ),
+    body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              color: Colors.black,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () => context.go('/about'),
+                          icon: const Icon(Icons.info, color: Colors.white),
+                        ),
+                        const Text(
+                          'About',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () => context.go('/contact'),
+                          icon: const Icon(Icons.contact_mail, color: Colors.white),
+                        ),
+                        const Text(
+                          'Kontakt',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.black,
+              padding: const EdgeInsets.all(16),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '© 2023 Your Company. Alle Rechte vorbehalten.',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

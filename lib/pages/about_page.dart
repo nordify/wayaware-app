@@ -106,9 +106,7 @@ class AboutPage extends StatelessWidget {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            // Aktion für den Tipp auf Kontakt
-                          },
+                          onPressed: () => context.go('/contact'),
                           icon: const Icon(Icons.contact_mail, color: Colors.white),
                         ),
                         const Text(
