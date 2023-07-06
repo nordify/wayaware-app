@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FaqQuestion {
-  final String question;
-  int likes;
-
-  FaqQuestion(this.question, {this.likes = 0});
-}
-
 class FaqPage extends StatefulWidget {
   const FaqPage({Key? key});
 
@@ -19,32 +12,68 @@ class _FaqPageState extends State<FaqPage> {
   TextEditingController _searchController = TextEditingController();
   TextEditingController _questionController = TextEditingController();
   List<String> _questions = []; // Liste der gestellten Fragen
+  List<String> _answers = []; // Liste der Antworten
 
   void _submitQuestion() {
     String question = _questionController.text;
     setState(() {
-      _questions.add(FaqQuestion(question) as String);
+      _questions.add(question);
+      _answers.add(''); // Füge eine leere Antwort für die Frage hinzu
     });
     _questionController.clear();
     Navigator.of(context).pop(); // Schließe die Chatbox
   }
 
-  // ...
+  void _submitAnswer(int index, String answer) {
+    setState(() {
+      _answers[index] = answer;
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _questionController.dispose();
+    super.dispose();
+  }
+
+  List<String> _filterQuestions(String searchText) {
+    // Hier kannst du die Logik für die Filterung der Fragen implementieren,
+    // basierend auf dem Suchtext
+    if (searchText.isEmpty) {
+      return _questions; // Gib alle Fragen zurück, wenn die Suchleiste leer ist
+    } else {
+      return _questions
+          .where((question) => question.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // ...
-
     return Scaffold(
       appBar: AppBar(
-        // ...
+        backgroundColor: Colors.black,
+        toolbarHeight: 80,
+        title: GestureDetector(
+          onTap: () => context.go('/about'),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/app_icon_inverted.png',
+                width: 75,
+                height: 75,
+              ),
+              const SizedBox(width: 20),
+              const Text('FAQ', style: TextStyle(fontSize: 30, color: Colors.white)),
+            ],
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ...
-
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -84,19 +113,32 @@ class _FaqPageState extends State<FaqPage> {
                 ],
               ),
             ),
-
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   const Text(
-                    'Fragen und Antworten',
+                   'Fragen und Antworten',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Suche nach Fragen',
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _questions.length,
+                    itemCount: _filterQuestions(_searchController.text).length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -104,12 +146,27 @@ class _FaqPageState extends State<FaqPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Frage ${index + 1}:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              'Frage ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(_questions[index].question),
-                            // Hier können weitere Informationen zur Beantwortung der Frage angezeigt werden,
-                            // z. B. Textfelder für die Antwort, Buttons zum Liken usw.
+                            TextField(
+                              onChanged: (value) {
+                                _submitAnswer(index, value);
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'Antwort eingeben...',
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                // Hier kannst du weitere Aktionen für das Absenden der Antwort hinzufügen
+                              },
+                              icon: const Icon(Icons.send),
+                            ),
+                            Text(
+                              'Antwort: ${_answers[index]}',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       );
@@ -118,8 +175,6 @@ class _FaqPageState extends State<FaqPage> {
                 ],
               ),
             ),
-
-            // ...
           ],
         ),
       ),
