@@ -40,20 +40,33 @@ class AppRouter {
               );
             },
             routes: [
-              GoRoute(path: 'faq', builder: (context, state) => const FaqPage()),
-              GoRoute(path: 'contact', builder: (context, state) => const ContactPage()),
-              GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
-              GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-              GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
-              GoRoute(path: 'settings', builder: (context, state) {
-                    return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
-                    },
-                  ),
-              GoRoute(path: 'createAnnotation', builder: (context, state) => const CreateAnnotationPage(),
-                  routes: [GoRoute(path: 'camera', builder: (context, state) => CameraPage())],
-                ),
-            ],
-          ),
+              GoRoute(
+                  path: 'faq', builder: (context, state) => const FaqPage()),
+              GoRoute(
+                  path: 'contact',
+                  builder: (context, state) => const ContactPage()),
+              GoRoute(
+                  path: 'about',
+                  builder: (context, state) => const AboutPage()),
+              GoRoute(
+                  path: 'settings',
+                  builder: (context, state) {
+                    return BlocProvider.value(
+                        value: _accessibilityModeBloc!,
+                        child: const SettingsPage());
+                  }),
+              GoRoute(
+                  path: 'createAnnotation',
+                  builder: (context, state) => const CreateAnnotationPage(),
+                  routes: [
+                    GoRoute(
+                        path: 'camera',
+                        builder: (context, state) => CameraPage())
+                  ])
+            ]),
+        GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+        GoRoute(
+            path: '/splash', builder: (context, state) => const SplashScreen()),
       ],
       redirect: (context, state) {
         final appState = _appStateCubit.state;
