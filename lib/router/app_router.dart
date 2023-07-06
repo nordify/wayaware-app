@@ -42,6 +42,8 @@ class AppRouter {
                 routes: [
                   GoRoute(path: 'map', builder: (context, state) => const MapPage()),
                   GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
+                  GoRoute(path: 'faq', builder: (context, state) => const FaqPage()),
+                  GoRoute(path: 'contact', builder: (context, state) => const ContactPage()),              
               ],
               builder: (context, state, child) => WNavbar(child: child)),
               GoRoute(
