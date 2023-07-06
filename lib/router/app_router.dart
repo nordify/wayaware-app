@@ -1,13 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/legend.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
 import 'package:wayaware/home.dart';
-import 'package:wayaware/pages/contact_page.dart';
-import 'package:wayaware/pages/faq_page.dart';
+import 'package:wayaware/pages/create_annotation/camera_page.dart';
+import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
@@ -19,7 +20,7 @@ class AppRouter {
   late final AppStateCubit _appStateCubit;
   GoRouter get router => _goRouter;
 
-  AccessibilityModeBloc? _accessibilityModeBloc;
+  UserSettingsBloc? _accessibilityModeBloc;
 
   AppRouter(this.appContext) {
     _appStateCubit = appContext.read<AppStateCubit>();
@@ -33,7 +34,7 @@ class AppRouter {
             builder: (context, state) {
               return BlocProvider(
                 lazy: false,
-                create: (context) => _accessibilityModeBloc = AccessibilityModeBloc(appContext.read<AuthUserBloc>().state!),
+                create: (context) => _accessibilityModeBloc = UserSettingsBloc(appContext.read<AuthUserBloc>().state!),
                 child: const HomePage(),
               );
             },
@@ -43,7 +44,6 @@ class AppRouter {
                   GoRoute(path: 'map', builder: (context, state) => const MapPage()),
                   GoRoute(path: 'about', builder: (context, state) => const AboutPage()),
                   GoRoute(path: 'faq', builder: (context, state) => const FaqPage()),
-                  GoRoute(path: 'home', builder: (context, state) => const HomePage()),
                   GoRoute(path: 'contact', builder: (context, state) => const ContactPage()),              
               ],
               builder: (context, state, child) => WNavbar(child: child)),
@@ -51,7 +51,10 @@ class AppRouter {
                   path: 'settings',
                   builder: (context, state) {
                     return BlocProvider.value(value: _accessibilityModeBloc!, child: const SettingsPage());
-                  })
+                  }),
+                  GoRoute(path: 'createAnnotation', builder: (context, state) => const CreateAnnotationPage(), routes: [
+                    GoRoute(path: 'camera', builder: (context, state) => CameraPage())
+                  ])
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
         GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
