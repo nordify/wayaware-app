@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wayaware/legend.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
@@ -11,6 +10,8 @@ import 'package:wayaware/pages/create_annotation/camera_page.dart';
 import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/map_page.dart';
+import 'package:wayaware/pages/contact_page.dart';
+import 'package:wayaware/pages/faq_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
 import 'package:wayaware/pages/splash_screen.dart';
 import 'package:wayaware/utils/navbar.dart';
