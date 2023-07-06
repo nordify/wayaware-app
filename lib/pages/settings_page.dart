@@ -11,7 +11,8 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends State<SettingsPage>
+    with AutomaticKeepAliveClientMixin<SettingsPage> {
   Future<void> _signOut() async {
     HapticFeedback.mediumImpact();
     Authentication.signOut();
@@ -23,6 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+          elevation: 0,
           toolbarHeight: 80,
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
@@ -37,7 +39,8 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
+            BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+                builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,11 +51,16 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state['accessibility_mode'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'accessibility_mode': value})), activeColor: Colors.black),
+                      value: state['accessibility_mode'] ?? false,
+                      onChanged: (value) => context
+                          .read<UserSettingsBloc>()
+                          .add(LocalChange({'accessibility_mode': value})),
+                      activeColor: Colors.black),
                 ],
               );
             }),
-             BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
+            BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+                builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,11 +71,16 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state['contrast_mode'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'contrast_mode': value})), activeColor: Colors.black),
+                      value: state['contrast_mode'] ?? false,
+                      onChanged: (value) => context
+                          .read<UserSettingsBloc>()
+                          .add(LocalChange({'contrast_mode': value})),
+                      activeColor: Colors.black),
                 ],
               );
             }),
-             BlocBuilder<UserSettingsBloc, Map<String, bool>>(builder: (context, state) {
+            BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+                builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +91,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state['screen_alway_on'] ?? false, onChanged: (value) => context.read<UserSettingsBloc>().add(LocalChange({'screen_alway_on': value})), activeColor: Colors.black),
+                      value: state['screen_alway_on'] ?? false,
+                      onChanged: (value) => context
+                          .read<UserSettingsBloc>()
+                          .add(LocalChange({'screen_alway_on': value})),
+                      activeColor: Colors.black),
                 ],
               );
             }),
@@ -101,10 +118,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
               ),
-            )
+            ),
+            const SizedBox(
+              height: 80,
+            ),
           ],
         ),
       ),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

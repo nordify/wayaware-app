@@ -7,11 +7,21 @@ class StatsPage extends StatefulWidget {
   State<StatsPage> createState() => _StatsPageState();
 }
 
-class _StatsPageState extends State<StatsPage> {
+class _StatsPageState extends State<StatsPage>
+    with AutomaticKeepAliveClientMixin<StatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 80,
+        elevation: 0,
+        backgroundColor: Colors.black,
+      ),
       body: Container(),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

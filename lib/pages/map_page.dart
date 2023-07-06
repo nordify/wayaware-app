@@ -13,7 +13,7 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<MapPage> {
   late final Future<Position?> getLocationFuture;
 
   late Uint8List testImgBytes;
@@ -156,4 +156,8 @@ class _MapPageState extends State<MapPage> {
           }),
     );
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
