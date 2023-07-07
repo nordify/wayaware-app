@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wayaware/backend/models/annotation_type.dart';
 
 class Annotation {
   final String id;
@@ -10,17 +11,4 @@ class Annotation {
   final List<ImageProvider> images;
 
   Annotation(this.id, this.altitude, this.latitude, this.longitude, this.type, this.description, this.images);
-}
-
-enum AnnotationType {
-  inaccessibleEntrances,
-  lackOfElevators,
-  limitedParkingSpaces,
-  absenceOfRestroomAccessibility,
-  lackOfVisualAccessibility,
-  noHearingAssistance,
-  unsupportiveSurfaces,
-  stairsOnlyAccess,
-  inaccessibleSeating,
-  nonCompliantFacilities,
 }
