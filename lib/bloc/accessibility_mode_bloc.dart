@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 sealed class SettingsChangeEvent {
   const SettingsChangeEvent();
@@ -53,6 +55,12 @@ class UserSettingsBloc extends Bloc<SettingsChangeEvent, Map<String, bool>> {
     final updateMap = state;
     updateMap.addAll(event.value);
 
+    if (updateMap['brightness_mode'] ?? false) {
+      await ScreenBrightness().setScreenBrightness(1.0);
+    } else {
+      await ScreenBrightness().setAutoReset(true);
+    }
+
     emit({});
     return emit(updateMap);
   }
@@ -78,6 +86,12 @@ class UserSettingsBloc extends Bloc<SettingsChangeEvent, Map<String, bool>> {
 
     final updateMap = state;
     updateMap.addAll(event.value);
+
+    if (updateMap['brightness_mode'] ?? false) {
+      await ScreenBrightness().setScreenBrightness(1.0);
+    } else {
+      await ScreenBrightness().setAutoReset(true);
+    }
 
     emit({});
     return emit(updateMap);

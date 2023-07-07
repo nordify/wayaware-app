@@ -16,11 +16,12 @@ class _SettingsPageState extends State<SettingsPage>
   Future<void> _signOut() async {
     HapticFeedback.mediumImpact();
     Authentication.signOut();
-    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -66,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Contrast Mode",
+                    "full brightness Mode",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),

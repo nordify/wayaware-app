@@ -9,7 +9,7 @@ class Dock extends StatefulWidget {
   final int initialIndex;
   final List<DockItem> items;
   final ValueChanged<int> onTap;
-  Color? defaultSelectedColor = Color.fromRGBO(255, 144, 0, 1);
+  Color? defaultSelectedColor = Colors.red;
   Color? defaultUnselectedColor = Colors.white;
 
   Dock({
@@ -139,14 +139,14 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
                       height: 40,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: Colors.blueAccent,
-                          boxShadow: [
+                          color: const Color.fromRGBO(0, 122, 255, 1),
+                          boxShadow: const [
                             BoxShadow(
                                 blurRadius: 50,
-                                color: Colors.blueAccent.withOpacity(0.75)),
+                                color: Color.fromRGBO(0, 122, 255, 0.75)),
                             BoxShadow(
                                 blurRadius: 50,
-                                color: Colors.blueAccent.withOpacity(0.75))
+                                color: Color.fromRGBO(0, 122, 255, 0.75))
                           ]),
                     ),
                   ),
@@ -181,7 +181,7 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
             callback: () {
               setIndex(indexes[i], indexesAbs[i]);
               widget.controller?.currentIndex = indexesAbs[1];
-              HapticFeedback.selectionClick();
+              HapticFeedback.lightImpact();
             },
             child: (item as DockTabItem).child,
           );
