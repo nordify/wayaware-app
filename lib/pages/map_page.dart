@@ -13,7 +13,8 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<MapPage> {
+class _MapPageState extends State<MapPage>
+    with AutomaticKeepAliveClientMixin<MapPage> {
   late final Future<Position?> getLocationFuture;
 
   late Uint8List testImgBytes;
@@ -105,32 +106,24 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
             return Stack(
               children: [
                 AppleMap(
-                  initialCameraPosition: CameraPosition(
-                      target:
-                          LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                      zoom: 14),
-                  mapStyle: MapStyle.light,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  compassEnabled: false,
-                  pitchGesturesEnabled: true,
-                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                    Factory<OneSequenceGestureRecognizer>(
-                      () => EagerGestureRecognizer(),
-                    ),
-                  },
-                  annotations: {
-                    Annotation(
-                        borderColor: Colors.blueAccent,
-                        selectedBorderColor: Colors.blueAccent,
-                        icon: BitmapDescriptor.fromBytes(testImgBytes),
-                        annotationId: AnnotationId(
-                          "test",
-                        ),
-                        position: LatLng(snapshot.data!.latitude + 0.0005,
-                            snapshot.data!.longitude + 0.0005))
-                  },
-                ),
+                    onCameraMove: (position) {
+                      print(position);
+                    },
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                            snapshot.data!.latitude, snapshot.data!.longitude),
+                        zoom: 14),
+                    mapStyle: MapStyle.light,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    compassEnabled: false,
+                    pitchGesturesEnabled: true,
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                      Factory<OneSequenceGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
+                    },
+                    annotations: _annotations),
                 Positioned.fromRect(
                   rect: Rect.fromLTRB(
                       MediaQuery.of(context).size.width * 19 / 20,
@@ -156,7 +149,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
           }),
     );
   }
-  
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
