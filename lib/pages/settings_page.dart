@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage>
               );
             }),
             const Text(
-              "The Keep Screen On Button is a convenient tool that ensures your screen stays on and prevents it from automatically turning off. Designed for both convenience and efficiency, this button eliminates the hassle of constantly touching the screen to prevent it from going into sleep mode.The button is prominently placed on your device's screen, allowing easy access and visibility. ",
+              "The Keep Screen On Button is a convenient tool that ensures your screen stays on and prevents it from automatically turning off. ",
               style: TextStyle(fontSize: 16),
             ),
             const Spacer(),
