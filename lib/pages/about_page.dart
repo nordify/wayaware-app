@@ -8,29 +8,30 @@ class AboutPage extends StatefulWidget {
   State<AboutPage> createState() => _AboutPageState();
 }
 
-class _AboutPageState extends State<AboutPage>
-    with AutomaticKeepAliveClientMixin<AboutPage> {
-      get title => null;
-    
+class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixin<AboutPage> {
+  get title => null;
+
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Colors.white,
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.black,
-      toolbarHeight: 80,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
-        children: [
-          Image.asset(
-            'assets/app_icon_inverted.png',
-            width: 75,
-            height: 75,
-          ),
-          const Text(
-            'About',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
+        toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
+          children: [
+            Image.asset(
+              'assets/app_icon_inverted.png',
+              width: 75,
+              height: 75,
+            ),
+            const Text(
+              'About',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
             ),
           ],
         ),
@@ -109,8 +110,7 @@ Widget build(BuildContext context) {
                     children: [
                       IconButton(
                         onPressed: () => context.go('/faq'),
-                        icon: const Icon(Icons.question_answer,
-                            color: Colors.white),
+                        icon: const Icon(Icons.question_answer, color: Colors.white),
                       ),
                       const Text(
                         'FAQ',
@@ -124,8 +124,7 @@ Widget build(BuildContext context) {
                     children: [
                       IconButton(
                         onPressed: () => context.go('/contact'),
-                        icon:
-                            const Icon(Icons.contact_mail, color: Colors.white),
+                        icon: const Icon(Icons.contact_mail, color: Colors.white),
                       ),
                       const Text(
                         'Kontakt',

@@ -33,30 +33,33 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
             if (!snapshot.hasData) return OSWidgets.getCircularProgressIndicator();
       
             final users = snapshot.data ?? [];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Leaderboard",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 40.0),
-                ),
-                const SizedBox(height: 10.0,),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: users.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          backgroundImage: users[index].avatarUrl != 'null' ? Image.network(users[index].avatarUrl).image : null,
-                        ),
-                        title: Text(users[index].name),
-                        trailing: Text('${users[index].points} points'),
-                      );
-                    },
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Leaderboard",
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 40.0),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10.0,),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.black,
+                            backgroundImage: users[index].avatarUrl != 'null' ? Image.network(users[index].avatarUrl).image : null,
+                          ),
+                          title: Text(users[index].name),
+                          trailing: Text('${users[index].points} points'),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
