@@ -60,6 +60,10 @@ class _SettingsPageState extends State<SettingsPage>
                 ],
               );
             }),
+            const Text(
+              "Introducing our Senior Mode, designed specifically to enhance the accessibility and usability of our product for seniors. This specialized mode is perfect for individuals who may have difficulty with small text or complex interfaces.",
+              style: TextStyle(fontSize: 16),
+            ),
             BlocBuilder<UserSettingsBloc, Map<String, bool>>(
                 builder: (context, state) {
               return Row(
@@ -80,6 +84,10 @@ class _SettingsPageState extends State<SettingsPage>
                 ],
               );
             }),
+            const Text(
+              "The Full Brightness Button is a convenient feature designed to enhance your screen viewing experience by maximizing the display's brightness when activated. With just a simple press, you can instantly achieve optimal visibility, making it ideal for situations where you need a brighter screen, such as working in well-lit environments or enjoying multimedia content in vibrant detail. ",
+              style: TextStyle(fontSize: 16),
+            ),
             BlocBuilder<UserSettingsBloc, Map<String, bool>>(
                 builder: (context, state) {
               return Row(
@@ -100,6 +108,10 @@ class _SettingsPageState extends State<SettingsPage>
                 ],
               );
             }),
+            const Text(
+              "The Keep Screen On Button is a convenient tool that ensures your screen stays on and prevents it from automatically turning off. Designed for both convenience and efficiency, this button eliminates the hassle of constantly touching the screen to prevent it from going into sleep mode.The button is prominently placed on your device's screen, allowing easy access and visibility. ",
+              style: TextStyle(fontSize: 16),
+            ),
             const Spacer(),
             SizedBox(
               width: double.infinity,
