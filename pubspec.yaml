@@ -101,6 +101,7 @@ flutter:
     - assets/treppen_img.jpg
     - assets/rampe_img.jpg
     - assets/IMG_7265.JPG
+    - assets/faq.png
 
 
   # The following line ensures that the Material Icons font is

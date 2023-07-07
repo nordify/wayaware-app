@@ -10,17 +10,30 @@ class AboutPage extends StatefulWidget {
 
 class _AboutPageState extends State<AboutPage>
     with AutomaticKeepAliveClientMixin<AboutPage> {
+      get title => null;
+    
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.black,
-        toolbarHeight: 80,
-        title: const Text('About',
-            style: TextStyle(fontSize: 25, color: Colors.white)),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    appBar: AppBar(
+      elevation: 0,
+      backgroundColor: Colors.black,
+      toolbarHeight: 80,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
+        children: [
+          Image.asset(
+            'assets/app_icon_inverted.png',
+            width: 75,
+            height: 75,
+          ),
+          const Text(
+            'About',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+          ],
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.zero,
@@ -35,7 +48,7 @@ class _AboutPageState extends State<AboutPage>
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 20, bottom: 15),
                   child: const Text(
-                    'Way-Aware',
+                    'Wayaware',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),

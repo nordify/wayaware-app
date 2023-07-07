@@ -21,7 +21,7 @@ class _FaqPageState extends State<FaqPage> {
       _answers.add(''); // Füge eine leere Antwort für die Frage hinzu
     });
     _questionController.clear();
-    Navigator.of(context).pop(); // Schließe die Chatbox
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   void _submitAnswer(int index, String answer) {
@@ -49,31 +49,50 @@ class _FaqPageState extends State<FaqPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        toolbarHeight: 80,
-        title: GestureDetector(
-          onTap: () => context.go('/about'),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/app_icon_inverted.png',
-                width: 75,
-                height: 75,
-              ),
-              const SizedBox(width: 20),
-              const Text('FAQ', style: TextStyle(fontSize: 30, color: Colors.white)),
-            ],
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    appBar: AppBar(
+      elevation: 0,
+      backgroundColor: Colors.black,
+      toolbarHeight: 80,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
+        children: [
+          Image.asset(
+            'assets/app_icon_inverted.png',
+            width: 75,
+            height: 75,
           ),
+          const Text(
+            'About',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 30, bottom: 15),
+                  child: const Text(
+                    "Gibt's noch Fragen?",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
+                  child: const Text(
+                    "Unsere Administratoren versuchen ihre Fragen schnellstmöglich zu beantworten. Fragen sie einfach drauf los, oder suchen sie nach ihrer Frage. Eventuell wurde sie bereits beantwortet?",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -176,6 +195,14 @@ class _FaqPageState extends State<FaqPage> {
                 ],
               ),
             ),
+            Container(
+              child: 
+              Image.asset(
+                'assets/faq.png', // Pfad zum PNG-Bild
+                width: 75,
+                height: 75,
+              ),
+            )
           ],
         ),
       ),
