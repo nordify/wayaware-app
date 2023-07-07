@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wayaware/backend/models/annotation.dart';
+import 'package:wayaware/backend/models/annotation_type.dart';
 
 class Annotations {
   // The URL for accessing the Firebase Storage
