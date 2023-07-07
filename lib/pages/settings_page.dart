@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Contrast Mode",
+                    "full brightness Mode",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
