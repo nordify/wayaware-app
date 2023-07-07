@@ -31,6 +31,7 @@ class CameraPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: CameraAwesomeBuilder.awesome(
         saveConfig: SaveConfig.photo(pathBuilder: _pathBuilder),
         sensor: Sensors.back,

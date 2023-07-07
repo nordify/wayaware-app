@@ -5,7 +5,7 @@ import 'package:preload_page_view/preload_page_view.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
-import 'package:wayaware/pages/stats_page.dart';
+import 'package:wayaware/pages/leaderboard_page.dart';
 import 'package:wayaware/utils/dock_controller.dart';
 import 'package:wayaware/widgets/dock.dart';
 
