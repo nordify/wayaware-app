@@ -157,6 +157,7 @@ Widget build(BuildContext context) {
                   ),
                   const SizedBox(height: 16),
                   ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: _filterQuestions(_searchController.text).length,
                     itemBuilder: (BuildContext context, int index) {
