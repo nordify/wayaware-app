@@ -13,6 +13,7 @@ import 'package:wayaware/pages/home_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
 import 'package:wayaware/pages/splash_screen.dart';
+import 'package:wayaware/utils/navbar.dart';
 
 class AppRouter {
   final BuildContext appContext;
@@ -40,11 +41,13 @@ class AppRouter {
               );
             },
             routes: [
-              GoRoute(
+              ShellRoute(builder: (context, state, child) => WNavbar(child: child), routes: [
+                GoRoute(
                   path: 'faq', builder: (context, state) => const FaqPage()),
               GoRoute(
                   path: 'contact',
                   builder: (context, state) => const ContactPage()),
+              ]),
               GoRoute(
                   path: 'about',
                   builder: (context, state) => const AboutPage()),

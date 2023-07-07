@@ -12,14 +12,22 @@ class _FaqPageState extends State<FaqPage> {
   TextEditingController _searchController = TextEditingController();
   TextEditingController _questionController = TextEditingController();
   List<String> _questions = []; // Liste der gestellten Fragen
+  List<String> _answers = []; // Liste der Antworten
 
   void _submitQuestion() {
     String question = _questionController.text;
     setState(() {
       _questions.add(question);
+      _answers.add(''); // Füge eine leere Antwort für die Frage hinzu
     });
     _questionController.clear();
-    Navigator.of(context).pop(); // Schließe die Chatbox
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _submitAnswer(int index, String answer) {
+    setState(() {
+      _answers[index] = answer;
+    });
   }
 
   @override
@@ -41,32 +49,50 @@ class _FaqPageState extends State<FaqPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        toolbarHeight: 80,
-        title: GestureDetector(
-          onTap: () => context.go('/about'),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/app_icon_inverted.png',
-                width: 75,
-                height: 75,
-              ),
-              const SizedBox(width: 20),
-              const Text('FAQ',
-                  style: TextStyle(fontSize: 30, color: Colors.white)),
-            ],
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    appBar: AppBar(
+      elevation: 0,
+      backgroundColor: Colors.black,
+      toolbarHeight: 80,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
+        children: [
+          Image.asset(
+            'assets/app_icon_inverted.png',
+            width: 75,
+            height: 75,
           ),
+          const Text(
+            'About',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 30, bottom: 15),
+                  child: const Text(
+                    "Gibt's noch Fragen?",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
+                  child: const Text(
+                    "Unsere Administratoren versuchen ihre Fragen schnellstmöglich zu beantworten. Fragen sie einfach drauf los, oder suchen sie nach ihrer Frage. Eventuell wurde sie bereits beantwortet?",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -91,7 +117,7 @@ class _FaqPageState extends State<FaqPage> {
                             ),
                             actions: [
                               TextButton(
-                                onPressed: (){
+                                onPressed: () {
                                   _submitQuestion();
                                 },
                                 child: const Text('Absenden'),
@@ -119,7 +145,8 @@ class _FaqPageState extends State<FaqPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: _searchController,
-                      onChanged: (value) {
+                      onChanged:
+                      (value) {
                         setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
                       },
                       decoration: const InputDecoration(
@@ -130,6 +157,7 @@ class _FaqPageState extends State<FaqPage> {
                   ),
                   const SizedBox(height: 16),
                   ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: _filterQuestions(_searchController.text).length,
                     itemBuilder: (BuildContext context, int index) {
@@ -139,12 +167,27 @@ class _FaqPageState extends State<FaqPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Frage ${index + 1}:',
+                              'Frage ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
                               style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(_filterQuestions(_searchController.text)[index]),
-                            // Hier können weitere Informationen zur Beantwortung der Frage angezeigt werden,
-                            // z. B. Textfelder für die Antwort, Buttons zum Liken usw.
+                            TextField(
+                              onChanged: (value) {
+                                _submitAnswer(index, value);
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'Antwort eingeben...',
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                // Hier kannst du weitere Aktionen für das Absenden der Antwort hinzufügen
+                              },
+                              icon: const Icon(Icons.send),
+                            ),
+                            Text(
+                              'Antwort: ${_answers[index]}',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       );
@@ -154,56 +197,13 @@ class _FaqPageState extends State<FaqPage> {
               ),
             ),
             Container(
-              color: Colors.black,
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.go('/about'),
-                          icon: const Icon(Icons.info, color: Colors.white),
-                        ),
-                        const Text(
-                          'About',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        IconButton(
-                          onPressed: () => context.go('/contact'),
-                          icon: const Icon(Icons.contact_mail,
-                              color: Colors.white),
-                        ),
-                        const Text(
-                          'Kontakt',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              child: 
+              Image.asset(
+                'assets/faq.png', // Pfad zum PNG-Bild
+                width: 75,
+                height: 75,
               ),
-            ),
-            Container(
-              color: Colors.black,
-              padding: const EdgeInsets.all(16),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '© 2023 Your Company. Alle Rechte vorbehalten.',
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
+            )
           ],
         ),
       ),
