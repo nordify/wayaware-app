@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/pages/map_page.dart';
@@ -55,29 +57,28 @@ class _HomePageState extends State<HomePage> {
           if (_currentScreen != index) {
             _currentScreen = index;
           }
-          _pageController.animateToPage(_currentScreen,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOut);
+          _pageController.animateToPage(_currentScreen, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
         },
         items: [
           DockTabItem(icon: Icons.map_rounded),
           DockTabItem(icon: Icons.show_chart_rounded),
           DockFunctionItem(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.white),
-                child: const Center(
-                  child: Icon(
-                    Icons.camera_alt_rounded,
-                    color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                  child: const Center(
+                    child: Icon(
+                      Icons.add_circle,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-            function: () async {},
-          ),
+              function: () {
+                HapticFeedback.mediumImpact();
+                context.go('/createAnnotation');
+              }),
           DockTabItem(icon: Icons.info_rounded),
           DockTabItem(icon: Icons.settings_rounded),
         ],
