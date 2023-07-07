@@ -55,6 +55,7 @@ dependencies:
   uuid: ^3.0.7
   path_provider: ^2.0.15
   preload_page_view: ^0.2.0
+  screen_brightness: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -101,6 +102,7 @@ flutter:
     - assets/treppen_img.jpg
     - assets/rampe_img.jpg
     - assets/IMG_7265.JPG
+    - assets/faq.png
 
 
   # The following line ensures that the Material Icons font is

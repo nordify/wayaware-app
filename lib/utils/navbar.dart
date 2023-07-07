@@ -20,12 +20,12 @@ class WNavbar extends StatelessWidget {
       bottomNavigationBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.question_answer),
+            label: 'FAQ',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'About',
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact',
           )
         ],
         currentIndex: _calculateSelectedIndex(context),
@@ -39,10 +39,10 @@ class WNavbar extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).location;
-    if (location.startsWith('/map')) {
+    if (location.startsWith('/faq')) {
       return 0;
     }
-    if (location.startsWith('/about')) {
+    if (location.startsWith('/contact')) {
       return 1;
     }
     return 0;
@@ -51,10 +51,10 @@ class WNavbar extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.go('/map');
+        context.go('/faq');
         break;
       case 1:
-        context.go('/about');
+        context.go('/contact');
         break;
     }
   }
