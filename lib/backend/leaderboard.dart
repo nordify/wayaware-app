@@ -12,7 +12,7 @@ class LeaderBoard {
       await FirebaseFirestore.instance
           .collection('leaderboard')
           .doc(authUser.uid)
-          .set({'name': authUser.displayName, 'points': points, 'avatar_url': authUser.photoURL});
+          .set({'name': authUser.displayName ?? authUser.email, 'points': points, 'avatar_url': authUser.photoURL});
       return;
     }
 
@@ -23,7 +23,7 @@ class LeaderBoard {
     await FirebaseFirestore.instance
         .collection('leaderboard')
         .doc(authUser.uid)
-        .set({'name': authUser.displayName, 'points': newpoints, 'avatar_url': authUser.photoURL});
+        .set({'name': authUser.displayName ?? authUser.email, 'points': newpoints, 'avatar_url': authUser.photoURL});
   }
 
   static Future<List<User>> getLeaderBoard({amount = 20}) async {
@@ -32,7 +32,7 @@ class LeaderBoard {
 
     for (final doc in results.docs) {
       if (doc.data().isEmpty) continue;
-      leaderBoard.add(User(doc.data()['name'], doc.data()['points'], doc.data()['avatar_url']));
+      leaderBoard.add(User(doc.data()['name'], doc.data()['points'], doc.data()['avatar_url'] ?? "null"));
     }
 
     return leaderBoard;

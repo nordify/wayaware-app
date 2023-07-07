@@ -16,9 +16,14 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
         elevation: 0,
+        toolbarHeight: 80,
         backgroundColor: Colors.black,
+        title: Image.asset(
+          'assets/app_icon_inverted.png',
+          width: 75,
+          height: 75,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20, left: 4.0),
@@ -42,7 +47,8 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: Image.network(users[index].avatarUrl).image,
+                          backgroundColor: Colors.black,
+                          backgroundImage: users[index].avatarUrl != 'null' ? Image.network(users[index].avatarUrl).image : null,
                         ),
                         title: Text(users[index].name),
                         trailing: Text('${users[index].points} points'),
@@ -59,6 +65,5 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
   }
 
   @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
