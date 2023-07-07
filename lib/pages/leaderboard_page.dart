@@ -16,9 +16,14 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
         elevation: 0,
+        toolbarHeight: 80,
         backgroundColor: Colors.black,
+        title: Image.asset(
+          'assets/app_icon_inverted.png',
+          width: 75,
+          height: 75,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20, left: 4.0),
@@ -60,6 +65,5 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
   }
 
   @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
