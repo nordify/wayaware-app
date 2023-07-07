@@ -38,18 +38,24 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
           borderRadius: BorderRadius.circular(12.0),
           child: Container(
             color: Colors.grey.shade400,
-            child: const Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Icon(
-                Icons.add_a_photo,
-                color: Colors.white,
-                size: 40,
-              ),
-              SizedBox(height: 5),
-              Text(
-                "Add Picture",
-                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
-              )
-            ]),
+            child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_a_photo,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "Add Picture",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600),
+                  )
+                ]),
           ),
         ),
       ));
@@ -83,7 +89,8 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
     }
 
     if (_textFieldController.text.length < 50) {
-      _showErrorAlert('Your description is too short! Please add some more information.');
+      _showErrorAlert(
+          'Your description is too short! Please add some more information.');
       return;
     }
 
@@ -98,9 +105,12 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
       imageIds.add(imageId);
     }
 
-    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best, timeLimit: const Duration(seconds: 8));
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        timeLimit: const Duration(seconds: 8));
 
-    await Annotations.addAnnotation(AnnotationType.values[_selectedType].name, _textFieldController.text, position, imageIds);
+    await Annotations.addAnnotation(AnnotationType.values[_selectedType].name,
+        _textFieldController.text, position, imageIds);
 
     _showSuccessAlert();
     _toggleLoading();
@@ -166,7 +176,7 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the alert dialog
-                context.pop(); 
+                context.pop();
               },
             ),
           ],
@@ -190,6 +200,7 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 0,
@@ -211,16 +222,42 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                   )),
             ],
           )),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: SizedBox(
+          width: double.infinity,
+          height: 65,
+          child: ElevatedButton(
+            onPressed: !_isLoading ? _saveAnnotation : null,
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            child: !_isLoading
+                ? const Text("Save",
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+                : OSWidgets.getCircularProgressIndicator(),
+          ),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 'Whats the topic?',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25),
               ),
               const SizedBox(height: 8.0),
               SizedBox(
@@ -243,8 +280,10 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                           _selectedType = selectedItem;
                         });
                       },
-                      children: List<Widget>.generate(AnnotationType.values.length, (int index) {
-                        return Center(child: Text(AnnotationType.values[index].typeName));
+                      children: List<Widget>.generate(
+                          AnnotationType.values.length, (int index) {
+                        return Center(
+                            child: Text(AnnotationType.values[index].typeName));
                       }),
                     ),
                   ),
@@ -258,14 +297,18 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                   ),
                   child: Text(
                     AnnotationType.values[_selectedType].typeName,
-                    style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               const SizedBox(height: 20.0),
               const Text(
                 'Describe the location',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25),
               ),
               const SizedBox(height: 8.0),
               CupertinoTextField(
@@ -273,9 +316,12 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                 controller: _textFieldController,
                 maxLines: 3,
                 autofocus: false,
-                onSubmitted: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
+                onSubmitted: (_) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
+                onTapOutside: (_) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
+                onEditingComplete: () =>
+                    FocusManager.instance.primaryFocus?.unfocus(),
               ),
 
               /*DropdownButtonFormField<String>(
@@ -299,32 +345,17 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               if (_gridWidgets.isNotEmpty)
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 7.5),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 7.5),
                     itemCount: _gridWidgets.length,
                     itemBuilder: (BuildContext context, int index) {
                       return _gridWidgets.reversed.toList()[index];
                     },
                   ),
                 ),
-              SizedBox(
-                width: double.infinity,
-                height: 65,
-                child: ElevatedButton(
-                  onPressed: !_isLoading ? _saveAnnotation : null,
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  child: !_isLoading
-                      ? const Text("Save", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
-                      : OSWidgets.getCircularProgressIndicator(),
-                ),
-              ),
-              const SizedBox(height: 16.0),
             ],
           ),
         ),
