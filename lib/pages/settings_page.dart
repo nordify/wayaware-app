@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wayaware/backend/authentication.dart';
-import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
+import 'package:wayaware/bloc/settings_mode_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -72,10 +72,10 @@ class _SettingsPageState extends State<SettingsPage>
                   ),
                   const Spacer(),
                   Switch.adaptive(
-                      value: state['contrast_mode'] ?? false,
+                      value: state['brightness_mode'] ?? false,
                       onChanged: (value) => context
                           .read<UserSettingsBloc>()
-                          .add(LocalChange({'contrast_mode': value})),
+                          .add(LocalChange({'brightness_mode': value})),
                       activeColor: Colors.black),
                 ],
               );
@@ -108,7 +108,7 @@ class _SettingsPageState extends State<SettingsPage>
                 onPressed: () => _signOut(),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  backgroundColor: Colors.black,
+                  backgroundColor: const Color.fromARGB(255, 1, 1, 1),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
