@@ -41,13 +41,8 @@ class AppRouter {
               );
             },
             routes: [
-              ShellRoute(builder: (context, state, child) => WNavbar(child: child), routes: [
-                GoRoute(
-                  path: 'faq', builder: (context, state) => const FaqPage()),
               GoRoute(
-                  path: 'contact',
-                  builder: (context, state) => const ContactPage()),
-              ]),
+                  path: 'faq', builder: (context, state) => const FaqPage()),
               GoRoute(
                   path: 'about',
                   builder: (context, state) => const AboutPage()),

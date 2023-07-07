@@ -9,10 +9,31 @@ class FaqPage extends StatefulWidget {
 }
 
 class _FaqPageState extends State<FaqPage> {
-  TextEditingController _searchController = TextEditingController();
-  TextEditingController _questionController = TextEditingController();
-  List<String> _questions = []; // Liste der gestellten Fragen
-  List<String> _answers = []; // Liste der Antworten
+  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _questionController = TextEditingController();
+  final List<String> _questions = []; // Liste der gestellten Fragen
+  final List<String> _answers = []; // Liste der Antworten
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  void _submitForm() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Form submitted'),
+        content: const Text('Thank you for your message!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _submitQuestion() {
     String question = _questionController.text;
@@ -66,7 +87,7 @@ Widget build(BuildContext context) {
             height: 75,
           ),
           const Text(
-            'About',
+            'FAQ',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
             ),
           ],
@@ -80,7 +101,7 @@ Widget build(BuildContext context) {
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 30, bottom: 15),
                   child: const Text(
-                    "Gibt's noch Fragen?",
+                    "Having issues?",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
@@ -88,7 +109,7 @@ Widget build(BuildContext context) {
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
                   child: const Text(
-                    "Unsere Administratoren versuchen ihre Fragen schnellstmöglich zu beantworten. Fragen sie einfach drauf los, oder suchen sie nach ihrer Frage. Eventuell wurde sie bereits beantwortet?",
+                    "Our administrators try to answer your questions as quickly as possible. Just ask about it, or look for your question. Perhaps it has already been answered?",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     textAlign: TextAlign.center,
                   ),
@@ -98,21 +119,17 @@ Widget build(BuildContext context) {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text(
-                    'Fragen stellen',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
                   ElevatedButton(
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Frage stellen'),
+                            title: const Text('Ask Question'),
                             content: TextField(
                               controller: _questionController,
                               decoration: const InputDecoration(
-                                hintText: 'Geben Sie Ihre Frage ein',
+                                hintText: 'Type here...',
                               ),
                             ),
                             actions: [
@@ -120,14 +137,17 @@ Widget build(BuildContext context) {
                                 onPressed: () {
                                   _submitQuestion();
                                 },
-                                child: const Text('Absenden'),
+                                child: const Text('Send'),
                               ),
                             ],
                           );
                         },
                       );
                     },
-                    child: const Text('Frage stellen'),
+                    style: ButtonStyle(
+                     backgroundColor: MaterialStateProperty.all(Colors.black),
+                    ),
+                    child: const Text('Ask Question'),
                   ),
                 ],
               ),
@@ -138,7 +158,7 @@ Widget build(BuildContext context) {
               child: Column(
                 children: [
                   const Text(
-                    'Fragen und Antworten',
+                    'Questions and Answers',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Container(
@@ -150,7 +170,7 @@ Widget build(BuildContext context) {
                         setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
                       },
                       decoration: const InputDecoration(
-                        hintText: 'Suche nach Fragen',
+                        hintText: 'Search',
                         prefixIcon: Icon(Icons.search),
                       ),
                     ),
@@ -166,7 +186,7 @@ Widget build(BuildContext context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Frage ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
+                              'Question ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
                               style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             TextField(
@@ -174,7 +194,7 @@ Widget build(BuildContext context) {
                                 _submitAnswer(index, value);
                               },
                               decoration: const InputDecoration(
-                                hintText: 'Antwort eingeben...',
+                                hintText: 'Type Answer here...',
                               ),
                             ),
                             IconButton(
@@ -184,7 +204,7 @@ Widget build(BuildContext context) {
                               icon: const Icon(Icons.send),
                             ),
                             Text(
-                              'Antwort: ${_answers[index]}',
+                              'Answer: ${_answers[index]}',
                               style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -202,7 +222,72 @@ Widget build(BuildContext context) {
                 width: 75,
                 height: 75,
               ),
-            )
+            ),
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                  padding: const EdgeInsets.only(top: 25, bottom: 10, left: 40, right: 40),
+                  child: const Text(
+                    'Contact Form',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
+                  child: const Text(
+                    "No sufficient help found? Feel free to contact us here.",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _messageController,
+                    decoration: const InputDecoration(labelText: 'Message'),
+                    maxLines: 4,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a message.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                    ),
+                    child: const Text('Submit'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
