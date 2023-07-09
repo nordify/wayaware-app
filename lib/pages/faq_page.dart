@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wayaware/bloc/settings_mode_bloc.dart';
 
 class FaqPage extends StatefulWidget {
   const FaqPage({Key? key});
@@ -64,40 +66,42 @@ class _FaqPageState extends State<FaqPage> {
     if (searchText.isEmpty) {
       return _questions; // Gib alle Fragen zurück, wenn die Suchleiste leer ist
     } else {
-      return _questions
-          .where((question) => question.toLowerCase().contains(searchText.toLowerCase()))
-          .toList();
+      return _questions.where((question) => question.toLowerCase().contains(searchText.toLowerCase())).toList();
     }
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Colors.white,
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.black,
-      toolbarHeight: 80,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
-        children: [
-          Image.asset(
-            'assets/app_icon_inverted.png',
-            width: 75,
-            height: 75,
-          ),
-          const Text(
-            'FAQ',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+      builder: (context, state) {
+        final accessibilityMode = state['accessibility_mode'] ?? false;
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.black,
+            toolbarHeight: 80,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
+              children: [
+                Image.asset(
+                  'assets/app_icon_inverted.png',
+                  width: 75,
+                  height: 75,
+                ),
+                const Text(
+                  'FAQ',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 30, bottom: 15),
                   child: const Text(
@@ -114,184 +118,184 @@ Widget build(BuildContext context) {
                     textAlign: TextAlign.center,
                   ),
                 ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Ask Question'),
-                            content: TextField(
-                              controller: _questionController,
-                              decoration: const InputDecoration(
-                                hintText: 'Type here...',
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  _submitQuestion();
-                                },
-                                child: const Text('Send'),
-                              ),
-                            ],
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Ask Question'),
+                                content: TextField(
+                                  controller: _questionController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type here...',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      _submitQuestion();
+                                    },
+                                    child: const Text('Send'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                    style: ButtonStyle(
-                     backgroundColor: MaterialStateProperty.all(Colors.black),
-                    ),
-                    child: const Text('Ask Question'),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  const Text(
-                    'Questions and Answers',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged:
-                      (value) {
-                        setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: _filterQuestions(_searchController.text).length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Question ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextField(
-                              onChanged: (value) {
-                                _submitAnswer(index, value);
-                              },
-                              decoration: const InputDecoration(
-                                hintText: 'Type Answer here...',
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                // Hier kannst du weitere Aktionen für das Absenden der Antwort hinzufügen
-                              },
-                              icon: const Icon(Icons.send),
-                            ),
-                            Text(
-                              'Answer: ${_answers[index]}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.black),
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: 
-              Image.asset(
-                'assets/faq.png', // Pfad zum PNG-Bild
-                width: 75,
-                height: 75,
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Container(
-                  padding: const EdgeInsets.only(top: 25, bottom: 10, left: 40, right: 40),
-                  child: const Text(
-                    'Contact Form',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                  color: Colors.white,
-                  padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
-                  child: const Text(
-                    "No sufficient help found? Feel free to contact us here.",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
+                        child: const Text('Ask Question'),
+                      ),
+                    ],
                   ),
                 ),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Name'),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your name.';
-                      }
-                      return null;
-                    },
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Questions and Answers',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Search',
+                            prefixIcon: Icon(Icons.search),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _filterQuestions(_searchController.text).length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Question ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextField(
+                                  onChanged: (value) {
+                                    _submitAnswer(index, value);
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: 'Type Answer here...',
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    // Hier kannst du weitere Aktionen für das Absenden der Antwort hinzufügen
+                                  },
+                                  icon: const Icon(Icons.send),
+                                ),
+                                Text(
+                                  'Answer: ${_answers[index]}',
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email.';
-                      }
-                      return null;
-                    },
+                ),
+                Container(
+                  child: Image.asset(
+                    'assets/faq.png', // Pfad zum PNG-Bild
+                    width: 75,
+                    height: 75,
                   ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _messageController,
-                    decoration: const InputDecoration(labelText: 'Message'),
-                    maxLines: 4,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a message.';
-                      }
-                      return null;
-                    },
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(top: 25, bottom: 10, left: 40, right: 40),
+                        child: const Text(
+                          'Contact Form',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
+                        child: const Text(
+                          "No sufficient help found? Feel free to contact us here.",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(labelText: 'Name'),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your name.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(labelText: 'Email'),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _messageController,
+                        decoration: const InputDecoration(labelText: 'Message'),
+                        maxLines: 4,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a message.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: _submitForm,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.black),
+                        ),
+                        child: const Text('Submit'),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                    ),
-                    child: const Text('Submit'),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

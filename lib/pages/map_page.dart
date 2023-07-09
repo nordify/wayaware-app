@@ -4,10 +4,12 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:wayaware/backend/annotations.dart';
 import 'package:wayaware/backend/models/annotation_type.dart';
+import 'package:wayaware/bloc/settings_mode_bloc.dart';
 import 'package:wayaware/pages/photo_view.dart';
 import 'package:wayaware/utils/os_widgets.dart';
 import 'package:flutter/services.dart' show ByteData, Uint8List, rootBundle;
@@ -106,141 +108,147 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 80,
-        backgroundColor: Colors.black,
-        title: Image.asset(
-          'assets/app_icon_inverted.png',
-          width: 75,
-          height: 75,
-        ),
-      ),
-      body: SlidingUpPanel(
-        onPanelClosed: () {
-          selectedAnnotation == null;
-        },
-        backdropTapClosesPanel: true,
-        backdropEnabled: true,
-        controller: panelController,
-        minHeight: 0,
-        parallaxEnabled: true,
-        parallaxOffset: 0.3,
-        borderRadius: BorderRadius.circular(15),
-        panel: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (selectedAnnotation != null)
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Builder(
-                    builder: (context) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            selectedAnnotation!.type.typeName,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            selectedAnnotation!.description,
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey.shade600),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(
-                            children: List.generate(
-                                selectedAnnotation!.images.length,
-                                (index) => GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) {
-                                            return PhotoViewer(image: selectedAnnotation!.images[index]);
+    return BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+      builder: (context, state) {
+        final accessibilityMode = state['accessibility_mode'] ?? false;
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 80,
+            backgroundColor: Colors.black,
+            title: Image.asset(
+              'assets/app_icon_inverted.png',
+              width: 75,
+              height: 75,
+            ),
+          ),
+          body: SlidingUpPanel(
+            onPanelClosed: () {
+              selectedAnnotation == null;
+            },
+            backdropTapClosesPanel: true,
+            backdropEnabled: true,
+            controller: panelController,
+            minHeight: 0,
+            parallaxEnabled: true,
+            parallaxOffset: 0.3,
+            borderRadius: BorderRadius.circular(15),
+            panel: SingleChildScrollView(
+              child: Column(
+                children: [
+                  if (selectedAnnotation != null)
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Builder(
+                        builder: (context) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                selectedAnnotation!.type.typeName,
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                selectedAnnotation!.description,
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey.shade600),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                children: List.generate(
+                                    selectedAnnotation!.images.length,
+                                    (index) => GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(
+                                              builder: (context) {
+                                                return PhotoViewer(image: selectedAnnotation!.images[index]);
+                                              },
+                                            ));
                                           },
-                                        ));
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 10),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(20),
-                                          child: Image(image: selectedAnnotation!.images[index]),
-                                        ),
-                                      ),
-                                    )),
-                          )
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20),
+                                              child: Image(image: selectedAnnotation!.images[index]),
+                                            ),
+                                          ),
+                                        )),
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 90,
+                  )
+                ],
+              ),
+            ),
+            body: Stack(
+              children: [
+                FutureBuilder(
+                    future: getLocationFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done || snapshot.hasError) {
+                        return Center(
+                          child: OSWidgets.getCircularProgressIndicator(),
+                        );
+                      }
+                      return Stack(
+                        children: [
+                          Positioned.fill(
+                            child: AppleMap(
+                                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                                onCameraMove: (position) {
+                                  cameraPosition = position;
+                                },
+                                onCameraIdle: () {
+                                  _loadAnnotations(cameraPosition);
+                                },
+                                onMapCreated: (controller) {
+                                  _loadAnnotations(CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude)));
+                                },
+                                initialCameraPosition: CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude), zoom: 14),
+                                mapStyle: MapStyle.light,
+                                myLocationEnabled: true,
+                                myLocationButtonEnabled: true,
+                                compassEnabled: false,
+                                pitchGesturesEnabled: true,
+                                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                                  Factory<OneSequenceGestureRecognizer>(
+                                    () => EagerGestureRecognizer(),
+                                  ),
+                                },
+                                annotations: _annotations.toSet()),
+                          ),
+                          Positioned.fromRect(
+                            rect: Rect.fromLTRB(MediaQuery.of(context).size.width * 19 / 20, 0, MediaQuery.of(context).size.width,
+                                MediaQuery.of(context).size.height),
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          Positioned.fromRect(
+                            rect: Rect.fromLTRB(0, 0, MediaQuery.of(context).size.width * 1 / 20, MediaQuery.of(context).size.height),
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          ),
                         ],
                       );
-                    },
-                  ),
-                ),
-              const SizedBox(
-                height: 90,
-              )
-            ],
+                    }),
+              ],
+            ),
           ),
-        ),
-        body: Stack(
-          children: [
-            FutureBuilder(
-                future: getLocationFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done || snapshot.hasError) {
-                    return Center(
-                      child: OSWidgets.getCircularProgressIndicator(),
-                    );
-                  }
-                  return Stack(
-                    children: [
-                      Positioned.fill(
-                        child: AppleMap(
-                            minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                            onCameraMove: (position) {
-                              cameraPosition = position;
-                            },
-                            onCameraIdle: () {
-                              _loadAnnotations(cameraPosition);
-                            },
-                            onMapCreated: (controller) {
-                              _loadAnnotations(CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude)));
-                            },
-                            initialCameraPosition: CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude), zoom: 14),
-                            mapStyle: MapStyle.light,
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: true,
-                            compassEnabled: false,
-                            pitchGesturesEnabled: true,
-                            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                              Factory<OneSequenceGestureRecognizer>(
-                                () => EagerGestureRecognizer(),
-                              ),
-                            },
-                            annotations: _annotations.toSet()),
-                      ),
-                      Positioned.fromRect(
-                        rect: Rect.fromLTRB(
-                            MediaQuery.of(context).size.width * 19 / 20, 0, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-                        child: Container(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      Positioned.fromRect(
-                        rect: Rect.fromLTRB(0, 0, MediaQuery.of(context).size.width * 1 / 20, MediaQuery.of(context).size.height),
-                        child: Container(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 

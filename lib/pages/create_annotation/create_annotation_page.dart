@@ -12,6 +12,7 @@ import 'package:wayaware/backend/leaderboard.dart';
 import 'package:wayaware/backend/models/annotation.dart';
 import 'package:wayaware/backend/models/annotation_type.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
+import 'package:wayaware/bloc/settings_mode_bloc.dart';
 import 'package:wayaware/utils/os_widgets.dart';
 
 class CreateAnnotationPage extends StatefulWidget {
@@ -198,149 +199,155 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 80,
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              const Text(
-                "Create Annotation",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                width: 25,
-              ),
-              SizedBox(
-                  height: 60,
-                  child: Image.asset(
-                    "assets/app_icon_inverted.png",
-                  )),
-            ],
-          )),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SizedBox(
-          width: double.infinity,
-          height: 65,
-          child: ElevatedButton(
-            onPressed: !_isLoading ? _saveAnnotation : null,
-            style: ElevatedButton.styleFrom(
+    return BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+      builder: (context, state) {
+        final accessibilityMode = state['accessibility_mode'] ?? false;
+
+        return Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
               elevation: 0,
+              toolbarHeight: 80,
               backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+              title: Row(
+                children: [
+                  const Text(
+                    "Create Annotation",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  SizedBox(
+                      height: 60,
+                      child: Image.asset(
+                        "assets/app_icon_inverted.png",
+                      )),
+                ],
+              )),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: SizedBox(
+              width: double.infinity,
+              height: 65,
+              child: ElevatedButton(
+                onPressed: !_isLoading ? _saveAnnotation : null,
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: !_isLoading
+                    ? const Text("Save", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+                    : OSWidgets.getCircularProgressIndicator(),
               ),
             ),
-            child: !_isLoading
-                ? const Text("Save", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
-                : OSWidgets.getCircularProgressIndicator(),
           ),
-        ),
-      ),
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Whats the topic?',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
-              ),
-              const SizedBox(height: 8.0),
-              SizedBox(
-                width: double.infinity,
-                height: 65,
-                child: ElevatedButton(
-                  onPressed: () => _showDialog(
-                    CupertinoPicker(
-                      magnification: 1.22,
-                      squeeze: 1.2,
-                      useMagnifier: true,
-                      itemExtent: 32.0,
-                      // This sets the initial item.
-                      scrollController: FixedExtentScrollController(
-                        initialItem: _selectedType,
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Whats the topic?',
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
+                  ),
+                  const SizedBox(height: 8.0),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 65,
+                    child: ElevatedButton(
+                      onPressed: () => _showDialog(
+                        CupertinoPicker(
+                          magnification: 1.22,
+                          squeeze: 1.2,
+                          useMagnifier: true,
+                          itemExtent: 32.0,
+                          // This sets the initial item.
+                          scrollController: FixedExtentScrollController(
+                            initialItem: _selectedType,
+                          ),
+                          // This is called when selected item is changed.
+                          onSelectedItemChanged: (int selectedItem) {
+                            setState(() {
+                              _selectedType = selectedItem;
+                            });
+                          },
+                          children: List<Widget>.generate(AnnotationType.values.length, (int index) {
+                            return Center(child: Text(AnnotationType.values[index].typeName));
+                          }),
+                        ),
                       ),
-                      // This is called when selected item is changed.
-                      onSelectedItemChanged: (int selectedItem) {
-                        setState(() {
-                          _selectedType = selectedItem;
-                        });
-                      },
-                      children: List<Widget>.generate(AnnotationType.values.length, (int index) {
-                        return Center(child: Text(AnnotationType.values[index].typeName));
-                      }),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.grey.shade200,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                      child: Text(
+                        AnnotationType.values[_selectedType].typeName,
+                        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    'Describe the location',
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
                   ),
-                  child: Text(
-                    AnnotationType.values[_selectedType].typeName,
-                    style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 8.0),
+                  CupertinoTextField(
+                    placeholder: 'Enter your description',
+                    controller: _textFieldController,
+                    maxLines: 3,
+                    autofocus: false,
+                    onSubmitted: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                    onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                    onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              const Text(
-                'Describe the location',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
-              ),
-              const SizedBox(height: 8.0),
-              CupertinoTextField(
-                placeholder: 'Enter your description',
-                controller: _textFieldController,
-                maxLines: 3,
-                autofocus: false,
-                onSubmitted: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
-              ),
 
-              /*DropdownButtonFormField<String>(
-                value: AnnotationType.values.first.name,
-                items: AnnotationType.values.map((AnnotationType item) {
-                  return DropdownMenuItem<String>(
-                    value: item.name,
-                    child: Text(item.name),
-                  );
-                }).toList(),
-                onChanged: (String? selectedValue) {
-                  if (selectedValue != null) {
-                    _selectedType = selectedValue;
-                  }
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Select item',
-                ),
-              ), */
-              const SizedBox(height: 16.0),
-              if (_gridWidgets.isNotEmpty)
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 7.5),
-                    itemCount: _gridWidgets.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _gridWidgets.reversed.toList()[index];
+                  /*DropdownButtonFormField<String>(
+                    value: AnnotationType.values.first.name,
+                    items: AnnotationType.values.map((AnnotationType item) {
+                      return DropdownMenuItem<String>(
+                        value: item.name,
+                        child: Text(item.name),
+                      );
+                    }).toList(),
+                    onChanged: (String? selectedValue) {
+                      if (selectedValue != null) {
+                        _selectedType = selectedValue;
+                      }
                     },
-                  ),
-                ),
-            ],
+                    decoration: const InputDecoration(
+                      labelText: 'Select item',
+                    ),
+                  ), */
+                  const SizedBox(height: 16.0),
+                  if (_gridWidgets.isNotEmpty)
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 7.5),
+                        itemCount: _gridWidgets.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _gridWidgets.reversed.toList()[index];
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
