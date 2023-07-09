@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:wayaware/backend/annotations.dart';
 import 'package:wayaware/backend/models/annotation_type.dart';
@@ -124,6 +125,14 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
               height: 75,
             ),
           ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+          floatingActionButton: FloatingActionButton(
+              onPressed: () => context.go('/legend'),
+              backgroundColor: const Color.fromRGBO(0, 122, 255, 1),
+              foregroundColor: Colors.white,
+              hoverColor: Colors.lightBlue,
+              elevation: 5,
+              child: const Icon(Icons.list)),
           body: SlidingUpPanel(
             onPanelClosed: () {
               selectedAnnotation == null;

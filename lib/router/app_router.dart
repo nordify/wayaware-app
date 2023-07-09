@@ -9,6 +9,7 @@ import 'package:wayaware/pages/create_annotation/camera_page.dart';
 import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/faq_page.dart';
 import 'package:wayaware/pages/home_page.dart';
+import 'package:wayaware/pages/legend_page.dart';
 import 'package:wayaware/pages/login_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
 import 'package:wayaware/pages/splash_screen.dart';
@@ -19,7 +20,7 @@ class AppRouter {
   late final AppStateCubit _appStateCubit;
   GoRouter get router => _goRouter;
 
-  UserSettingsBloc? _accessibilityModeBloc;
+  UserSettingsBloc? _userSettingsBloc;
 
   AppRouter(this.appContext) {
     _appStateCubit = appContext.read<AppStateCubit>();
@@ -33,23 +34,21 @@ class AppRouter {
             builder: (context, state) {
               return BlocProvider(
                 lazy: false,
-                create: (context) => _accessibilityModeBloc =
+                create: (context) => _userSettingsBloc =
                     UserSettingsBloc(
                         appContext.read<AuthUserBloc>().state!),
                 child: const HomePage(),
               );
             },
             routes: [
+              GoRoute(path: 'legend', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const LegendPage()),),
               GoRoute(
-                  path: 'faq', builder: (context, state) => const FaqPage()),
-              GoRoute(
-                  path: 'about',
-                  builder: (context, state) => const AboutPage()),
+                  path: 'faq', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const FaqPage()),),
               GoRoute(
                   path: 'settings',
                   builder: (context, state) {
                     return BlocProvider.value(
-                        value: _accessibilityModeBloc!,
+                        value: _userSettingsBloc!,
                         child: const SettingsPage());
                   }),
               GoRoute(
