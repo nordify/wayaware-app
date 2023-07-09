@@ -12,7 +12,7 @@ import 'package:wayaware/backend/leaderboard.dart';
 import 'package:wayaware/backend/models/annotation.dart';
 import 'package:wayaware/backend/models/annotation_type.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
-import 'package:wayaware/bloc/settings_mode_bloc.dart';
+import 'package:wayaware/bloc/user_settings_bloc.dart';
 import 'package:wayaware/utils/os_widgets.dart';
 
 class CreateAnnotationPage extends StatefulWidget {

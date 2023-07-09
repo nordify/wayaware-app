@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wayaware/bloc/settings_mode_bloc.dart';
+import 'package:wayaware/bloc/user_settings_bloc.dart';
 
 class CameraPage extends StatelessWidget {
   CameraPage({super.key});

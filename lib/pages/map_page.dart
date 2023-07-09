@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:wayaware/backend/annotations.dart';
 import 'package:wayaware/backend/models/annotation_type.dart';
-import 'package:wayaware/bloc/settings_mode_bloc.dart';
+import 'package:wayaware/bloc/user_settings_bloc.dart';
 import 'package:wayaware/pages/photo_view.dart';
 import 'package:wayaware/utils/os_widgets.dart';
 import 'package:flutter/services.dart' show ByteData, Uint8List, rootBundle;
