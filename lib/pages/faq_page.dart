@@ -90,9 +90,9 @@ class _FaqPageState extends State<FaqPage> {
                   width: 75,
                   height: 75,
                 ),
-                const Text(
+                 Text(
                   'FAQ',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+                   style: TextStyle(fontSize: accessibilityMode ? 40 : 28, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
               ],
             ),
@@ -104,17 +104,17 @@ class _FaqPageState extends State<FaqPage> {
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 30, bottom: 15),
-                  child: const Text(
+                  child: Text(
                     "Having issues?",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                    style: TextStyle(fontSize: accessibilityMode ? 31 : 30, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
-                  child: const Text(
+                  child: Text(
                     "Our administrators try to answer your questions as quickly as possible. Just ask about it, or look for your question. Perhaps it has already been answered?",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: accessibilityMode ? 35 : 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -161,9 +161,9 @@ class _FaqPageState extends State<FaqPage> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      const Text(
+                       Text(
                         'Questions and Answers',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: accessibilityMode ? 35 : 20, fontWeight: FontWeight.bold),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -233,17 +233,17 @@ class _FaqPageState extends State<FaqPage> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(top: 25, bottom: 10, left: 40, right: 40),
-                        child: const Text(
+                        child: Text(
                           'Contact Form',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: accessibilityMode ? 35 : 20, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Container(
                         color: Colors.white,
                         padding: const EdgeInsets.only(top: 5, bottom: 15, left: 40, right: 40),
-                        child: const Text(
+                        child: Text(
                           "No sufficient help found? Feel free to contact us here.",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: accessibilityMode ? 35 : 18, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
                       ),
