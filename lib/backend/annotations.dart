@@ -7,12 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wayaware/backend/models/annotation.dart';
+import 'package:wayaware/backend/models/annotation_type.dart';
 
 class Annotations {
   // The URL for accessing the Firebase Storage
-  static final storageUrl = "gs://${FirebaseStorage.instance.app.options.storageBucket}";
+  static final storageUrl =
+      "gs://${FirebaseStorage.instance.app.options.storageBucket}";
 
-  static Future<bool> addAnnotation(String type, String desc, Position position, List<String> imageIds) async {
+  static Future<bool> addAnnotation(String type, String desc, Position position,
+      List<String> imageIds) async {
     final id = const Uuid().v4();
 
     FirebaseFirestore.instance.collection('annotations').doc(id).set({
@@ -44,7 +47,10 @@ class Annotations {
   }
 
   static Future<Annotation?> getAnnotation(String annotationId) async {
-    final data = await FirebaseFirestore.instance.collection('annotations').doc(annotationId).get();
+    final data = await FirebaseFirestore.instance
+        .collection('annotations')
+        .doc(annotationId)
+        .get();
     if (data.data() == null || data.data()!.isEmpty) return null;
 
     final List<ImageProvider> images = [];
@@ -57,28 +63,35 @@ class Annotations {
         data.data()!['altitude'],
         data.data()!['latitude'],
         data.data()!['longitude'],
-        AnnotationType.values.firstWhere((element) => element.toString().split('.').last == data.data()!['type']),
+        AnnotationType.values.firstWhere((element) =>
+            element.toString().split('.').last == data.data()!['type']),
         data.data()!['description'],
         images);
   }
 
-  static ImageProvider _getImageFromStorage(String imageId, {reloadPicture = false}) {
-    return cache.FirebaseImageProvider(cache.FirebaseUrl("$storageUrl/images/$imageId"),
-        options: cache.CacheOptions(metadataRefreshInBackground: !reloadPicture, checkForMetadataChange: reloadPicture));
+  static ImageProvider _getImageFromStorage(String imageId,
+      {reloadPicture = false}) {
+    return cache.FirebaseImageProvider(
+        cache.FirebaseUrl("$storageUrl/images/$imageId"),
+        options: cache.CacheOptions(
+            metadataRefreshInBackground: !reloadPicture,
+            checkForMetadataChange: reloadPicture));
   }
 
-  static Future<List<Annotation>> getAnnotations({int amount = 500, minLongitude = 0, maxLongitude = 10, minLatitude = 0, maxLatitude = 10}) async {
+  static Future<List<Annotation>> getAnnotations(
+      {int amount = 500,
+      minLongitude = 0,
+      maxLongitude = 10,
+      minLatitude = 0,
+      maxLatitude = 10}) async {
     final List<Annotation> annotations = [];
 
     final results = await FirebaseFirestore.instance
         .collection('annotations')
         .where('longitude', isGreaterThanOrEqualTo: minLongitude)
-        .where('latitude', isGreaterThanOrEqualTo: minLatitude)
         .where('longitude', isLessThanOrEqualTo: maxLongitude)
-        .where('latitude', isLessThanOrEqualTo: maxLatitude)
         .limit(amount)
         .get();
-
     for (final doc in results.docs) {
       if (doc.data().isEmpty) continue;
 
@@ -92,7 +105,8 @@ class Annotations {
           doc.data()['altitude'],
           doc.data()['latitude'],
           doc.data()['longitude'],
-          AnnotationType.values.firstWhere((element) => element.toString().split('.').last == doc.data()['type']),
+          AnnotationType.values.firstWhere((element) =>
+              element.toString().split('.').last == doc.data()['type']),
           doc.data()['description'],
           images));
     }

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 sealed class SettingsChangeEvent {
@@ -28,11 +27,7 @@ class UserSettingsBloc extends Bloc<SettingsChangeEvent, Map<String, bool>> {
     on<_StreamChange>(_onStreamModeChange);
     on<LocalChange>(_onModeChange);
 
-    _accessibilityModeSubscription = FirebaseFirestore.instance
-        .collection('settings')
-        .doc(_user.uid)
-        .snapshots()
-        .listen((event) {
+    _accessibilityModeSubscription = FirebaseFirestore.instance.collection('settings').doc(_user.uid).snapshots().listen((event) {
       if (event.data() == null) return;
       if (event.data()!.isEmpty) return;
 
@@ -50,47 +45,48 @@ class UserSettingsBloc extends Bloc<SettingsChangeEvent, Map<String, bool>> {
   final User _user;
   late final StreamSubscription _accessibilityModeSubscription;
 
-  Future<void> _onStreamModeChange(
-      _StreamChange event, Emitter<Map<String, bool>> emit) async {
+  Future<void> _onStreamModeChange(_StreamChange event, Emitter<Map<String, bool>> emit) async {
     final updateMap = state;
     updateMap.addAll(event.value);
 
-    if (updateMap['brightness_mode'] ?? false) {
+    if (updateMap['brightness_mode'] == true) {
       await ScreenBrightness().setScreenBrightness(1.0);
     } else {
-      await ScreenBrightness().setAutoReset(true);
+      await ScreenBrightness().resetScreenBrightness();
+    }
+
+    if (updateMap['screen_alway_on'] == true) {
+      KeepScreenOn.turnOn();
+    } else {
+      KeepScreenOn.turnOff();
     }
 
     emit({});
     return emit(updateMap);
   }
 
-  Future<void> _onModeChange(
-      LocalChange event, Emitter<Map<String, bool>> emit) async {
-    final data = await FirebaseFirestore.instance
-        .collection('settings')
-        .doc(_user.uid)
-        .get();
+  Future<void> _onModeChange(LocalChange event, Emitter<Map<String, bool>> emit) async {
+    final data = await FirebaseFirestore.instance.collection('settings').doc(_user.uid).get();
 
     if (data.exists) {
-      FirebaseFirestore.instance
-          .collection('settings')
-          .doc(_user.uid)
-          .update(event.value);
+      FirebaseFirestore.instance.collection('settings').doc(_user.uid).update(event.value);
     } else {
-      FirebaseFirestore.instance
-          .collection('settings')
-          .doc(_user.uid)
-          .set(event.value);
+      FirebaseFirestore.instance.collection('settings').doc(_user.uid).set(event.value);
     }
 
     final updateMap = state;
     updateMap.addAll(event.value);
 
-    if (updateMap['brightness_mode'] ?? false) {
+    if (updateMap['brightness_mode'] == true) {
       await ScreenBrightness().setScreenBrightness(1.0);
     } else {
-      await ScreenBrightness().setAutoReset(true);
+      await ScreenBrightness().resetScreenBrightness();
+    }
+
+    if (updateMap['screen_alway_on'] == true) {
+      KeepScreenOn.turnOn();
+    } else {
+      KeepScreenOn.turnOff();
     }
 
     emit({});
