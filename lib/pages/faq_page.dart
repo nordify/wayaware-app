@@ -82,20 +82,10 @@ class _FaqPageState extends State<FaqPage> {
             elevation: 0,
             backgroundColor: Colors.black,
             toolbarHeight: 80,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Hier hinzugefügt
-              children: [
-                Image.asset(
-                  'assets/app_icon_inverted.png',
-                  width: 75,
-                  height: 75,
-                ),
-                 Text(
+            title: Text(
                   'FAQ',
                    style: TextStyle(fontSize: accessibilityMode ? 40 : 28, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
-              ],
-            ),
           ),
           body: SingleChildScrollView(
             child: Column(

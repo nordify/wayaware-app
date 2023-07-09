@@ -46,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     children: [
                       Text(
                         "Senior Mode",
-                        style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold)
                       ),
                       const Spacer(),
                       Switch.adaptive(
@@ -58,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   Expanded(
                     child: Text(
                       "Introducing our Senior Mode, designed specifically to enhance the accessibility and usability of our product for seniors. This specialized mode is perfect for individuals who may have difficulty with small text or complex interfaces.",
-                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16),
+                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16), softWrap: true
                     ),
                   ),
                   Row(
@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                     children: [
                       Text(
                         "Full Brightness",
-                        style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold)
                       ),
                       const Spacer(),
                       Switch.adaptive(
@@ -79,7 +79,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   Expanded(
                     child: Text(
                       "The Full Brightness Button is a convenient feature designed to enhance your screen viewing experience by maximizing the display's brightness when activated. With just a simple press, you can instantly achieve optimal visibility, making it ideal for situations where you need a brighter screen, such as working in well-lit environments or enjoying multimedia content in vibrant detail. ",
-                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16),
+                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16), softWrap: true
                     ),
                   ),
                   Row(
@@ -100,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> with AutomaticKeepAliveClie
                   Expanded(
                     child: Text(
                       "The Keep Screen On Button is a convenient tool that ensures your screen stays on and prevents it from automatically turning off. ",
-                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16),
+                      style: TextStyle(fontSize: accessibilityMode ? 25 : 16), softWrap: true
                     ),
                   ),
                   const Spacer(),

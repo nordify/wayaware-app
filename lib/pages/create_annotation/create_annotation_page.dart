@@ -210,22 +210,10 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               elevation: 0,
               toolbarHeight: 80,
               backgroundColor: Colors.black,
-              title: Row(
-                children: [
-                  const Text(
+              title: Text(
                     "Create Annotation",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 25,
-                  ),
-                  SizedBox(
-                      height: 60,
-                      child: Image.asset(
-                        "assets/app_icon_inverted.png",
-                      )),
-                ],
-              )),
+                    style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold),
+                  )),
           floatingActionButton: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: SizedBox(
@@ -242,7 +230,7 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                   ),
                 ),
                 child: !_isLoading
-                    ? const Text("Save", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+                    ? Text("Save", style: TextStyle(fontSize: accessibilityMode ? 40 : 20, fontWeight: FontWeight.bold))
                     : OSWidgets.getCircularProgressIndicator(),
               ),
             ),
@@ -254,9 +242,9 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Whats the topic?',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: accessibilityMode ? 30 : 25),
                   ),
                   const SizedBox(height: 8.0),
                   SizedBox(
@@ -280,7 +268,7 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                             });
                           },
                           children: List<Widget>.generate(AnnotationType.values.length, (int index) {
-                            return Center(child: Text(AnnotationType.values[index].typeName));
+                            return Center(child: Text(AnnotationType.values[index].typeName, style: TextStyle(fontSize: accessibilityMode ? 30 : 25),));
                           }),
                         ),
                       ),
@@ -294,18 +282,19 @@ class _CreateAnnotationPageState extends State<CreateAnnotationPage> {
                       ),
                       child: Text(
                         AnnotationType.values[_selectedType].typeName,
-                        style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  const Text(
+                  Text(
                     'Describe the location',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: accessibilityMode ? 30 : 25),
                   ),
                   const SizedBox(height: 8.0),
                   CupertinoTextField(
                     placeholder: 'Enter your description',
+                    placeholderStyle: TextStyle(fontSize: accessibilityMode ? 25 : 15),
                     controller: _textFieldController,
                     maxLines: 3,
                     autofocus: false,

@@ -73,7 +73,6 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
   }
 
   Future<Position?> _getCurrentLocation() async {
-    testImgBytes = await getImageBytesFromAsset("assets/IMG_7265.JPG");
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -125,13 +124,14 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
               height: 75,
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
           floatingActionButton: FloatingActionButton(
               onPressed: () => context.go('/legend'),
               backgroundColor: const Color.fromRGBO(0, 122, 255, 1),
               foregroundColor: Colors.white,
               hoverColor: Colors.lightBlue,
               elevation: 5,
+              mini: !accessibilityMode,
               child: const Icon(Icons.list)),
           body: SlidingUpPanel(
             onPanelClosed: () {
@@ -157,14 +157,14 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                             children: [
                               Text(
                                 selectedAnnotation!.type.typeName,
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black),
+                                style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.w800, color: Colors.black),
                               ),
                               const SizedBox(
                                 height: 15,
                               ),
                               Text(
                                 selectedAnnotation!.description,
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey.shade600),
+                                style: TextStyle(fontSize: accessibilityMode ? 25 : 15, fontWeight: FontWeight.w400, color: Colors.grey.shade600),
                               ),
                               const SizedBox(
                                 height: 20,

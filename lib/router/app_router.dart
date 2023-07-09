@@ -41,9 +41,9 @@ class AppRouter {
               );
             },
             routes: [
-              GoRoute(path: 'legend', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const LegendPage()),),
+              GoRoute(path: 'legend', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const LegendPage())),
               GoRoute(
-                  path: 'faq', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const FaqPage()),),
+                  path: 'faq', builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const FaqPage())),
               GoRoute(
                   path: 'settings',
                   builder: (context, state) {
@@ -53,7 +53,7 @@ class AppRouter {
                   }),
               GoRoute(
                   path: 'createAnnotation',
-                  builder: (context, state) => const CreateAnnotationPage(),
+                  builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: const CreateAnnotationPage()),
                   routes: [
                     GoRoute(
                         path: 'camera',

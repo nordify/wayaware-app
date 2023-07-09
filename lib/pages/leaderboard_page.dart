@@ -60,8 +60,8 @@ class _StatsPageState extends State<StatsPage> with AutomaticKeepAliveClientMixi
                                 backgroundColor: Colors.black,
                                 backgroundImage: users[index].avatarUrl != 'null' ? Image.network(users[index].avatarUrl).image : null,
                               ),
-                              title: Text(users[index].name),
-                              trailing: Text('${users[index].points} points'),
+                              title: Text(users[index].name, style: TextStyle(fontSize: accessibilityMode ? 30 : 20),),
+                              trailing: Text('${users[index].points} points', style: TextStyle(fontSize: accessibilityMode ? 30 : 20)),
                             );
                           },
                         ),
