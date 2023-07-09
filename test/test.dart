@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class FaqPage extends StatefulWidget {
   const FaqPage({Key? key});
@@ -9,172 +8,125 @@ class FaqPage extends StatefulWidget {
 }
 
 class _FaqPageState extends State<FaqPage> {
-  TextEditingController _searchController = TextEditingController();
-  TextEditingController _questionController = TextEditingController();
-  List<String> _questions = []; // Liste der gestellten Fragen
-  List<String> _answers = []; // Liste der Antworten
-
-  void _submitQuestion() {
-    String question = _questionController.text;
-    setState(() {
-      _questions.add(question);
-      _answers.add(''); // Füge eine leere Antwort für die Frage hinzu
-    });
-    _questionController.clear();
-    Navigator.of(context).pop(); // Schließe die Chatbox
-  }
-
-  void _submitAnswer(int index, String answer) {
-    setState(() {
-      _answers[index] = answer;
-    });
-  }
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _messageController = TextEditingController();
 
   @override
   void dispose() {
-    _searchController.dispose();
-    _questionController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
     super.dispose();
   }
 
-  List<String> _filterQuestions(String searchText) {
-    // Hier kannst du die Logik für die Filterung der Fragen implementieren,
-    // basierend auf dem Suchtext
-    if (searchText.isEmpty) {
-      return _questions; // Gib alle Fragen zurück, wenn die Suchleiste leer ist
-    } else {
-      return _questions
-          .where((question) => question.toLowerCase().contains(searchText.toLowerCase()))
-          .toList();
-    }
+  void _submitForm() {
+    // Hier kannst du den Code für das Absenden des Kontaktformulars hinzufügen
+    String name = _nameController.text;
+    String email = _emailController.text;
+    String message = _messageController.text;
+
+    // TODO: Handle form submission (e.g., send data to server)
+
+    // Zeige eine Bestätigungsnachricht oder navigiere zu einer anderen Seite
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Form submitted'),
+        content: Text('Thank you for your message!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.black,
         toolbarHeight: 80,
-        title: GestureDetector(
-          onTap: () => context.go('/about'),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/app_icon_inverted.png',
-                width: 75,
-                height: 75,
-              ),
-              const SizedBox(width: 20),
-              const Text('FAQ', style: TextStyle(fontSize: 30, color: Colors.white)),
-            ],
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/app_icon_inverted.png',
+              width: 75,
+              height: 75,
+            ),
+            const Text(
+              'About',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // ...existing code...
+
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   const Text(
-                    'Fragen stellen',
+                    'Kontaktformular',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Frage stellen'),
-                            content: TextField(
-                              controller: _questionController,
-                              decoration: const InputDecoration(
-                                hintText: 'Geben Sie Ihre Frage ein',
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  _submitQuestion();
-                                },
-                                child: const Text('Absenden'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name.';
+                      }
+                      return null;
                     },
-                    child: const Text('Frage stellen'),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  const Text(
-                   'Fragen und Antworten',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        setState(() {}); // Aktualisiere die Anzeige basierend auf dem Suchtext
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Suche nach Fragen',
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 16),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _filterQuestions(_searchController.text).length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Frage ${index + 1}: ${_filterQuestions(_searchController.text)[index]}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextField(
-                              onChanged: (value) {
-                                _submitAnswer(index, value);
-                              },
-                              decoration: const InputDecoration(
-                                hintText: 'Antwort eingeben...',
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                // Hier kannst du weitere Aktionen für das Absenden der Antwort hinzufügen
-                              },
-                              icon: const Icon(Icons.send),
-                            ),
-                            Text(
-                              'Antwort: ${_answers[index]}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      );
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email.';
+                      }
+                      return null;
                     },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _messageController,
+                    decoration: const InputDecoration(labelText: 'Message'),
+                    maxLines: 4,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a message.';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
             ),
+
+            // ...existing code...
           ],
         ),
       ),
