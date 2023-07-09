@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wayaware/pages/about_page.dart';
-import 'package:wayaware/bloc/accessibility_mode_bloc.dart';
+import 'package:wayaware/bloc/settings_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
 import 'package:wayaware/pages/contact_page.dart';
