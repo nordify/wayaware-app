@@ -37,7 +37,7 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                 ),
                 Text(
                   'About',
-                  style: TextStyle(fontSize: accessibilityMode ? 35 : 25, fontWeight: FontWeight.w700, color: Colors.white),
+                  style: TextStyle(fontSize: accessibilityMode ? 35 : 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -56,15 +56,15 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                       padding: const EdgeInsets.only(right: 178, top: 20, bottom: 5),
                       child: Text(
                         'Wayaware',
-                        style: TextStyle(fontSize: accessibilityMode ? 40 : 30, fontWeight: FontWeight.w900),
+                        style: TextStyle(fontSize: accessibilityMode ? 35 : 30, fontWeight: FontWeight.w900),
                       ),
                     ),
                     Container(
                       color: Colors.white,
                       padding: EdgeInsets.only(left: 5, right: 15),
-                      child: const Text(
+                      child: Text(
                         'At Wayaware, we are committed to raising awareness and supporting people with disabilities. Our aim is to break down barriers, combat prejudices and create an inclusive society in which all people have equal opportunities and opportunities to participate.',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: accessibilityMode ? 25 : 18),
                         //    textAlign: TextAlign.center,
                       ),
                     ),
@@ -73,15 +73,15 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                       padding: const EdgeInsets.only(right: 101, top: 30, bottom: 5),
                       child: Text(
                         'Functionalities',
-                        style: TextStyle(fontSize: accessibilityMode ? 40 : 30, fontWeight: FontWeight.w900),
+                        style: TextStyle(fontSize: accessibilityMode ? 35 : 30, fontWeight: FontWeight.w900),
                       ),
                     ),
                     Container(
                       color: Colors.white,
                       padding: EdgeInsets.only(left: 5, right: 15),
-                      child: const Text(
+                      child: Text(
                         'Wayaware offers a variety of functions to raise awareness and provide information about different types of disabilities. From stories and stories of people with disabilities to resources and tips on accessibility, our app is a comprehensive tool for anyone who wants to learn more about these important topics.',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: accessibilityMode ? 25 : 18),
                         //   textAlign: TextAlign.center,
                       ),
                     ),
@@ -90,15 +90,15 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                       padding: const EdgeInsets.only(right: 151, top: 30, bottom: 5),
                       child: Text(
                         'Support us!',
-                        style: TextStyle(fontSize: accessibilityMode ? 40 : 30, fontWeight: FontWeight.w900),
+                        style: TextStyle(fontSize: accessibilityMode ? 35 : 30, fontWeight: FontWeight.w900),
                       ),
                     ),
                     Container(
                       color: Colors.white,
                       padding: EdgeInsets.only(left: 5, right: 15),
-                      child: const Text(
+                      child: Text(
                         'We appreciate your support in raising awareness for people with disabilities. Share our app with your friends and family, get involved in local communities and promote accessible environments.',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: accessibilityMode ? 25 : 18),
                         // textAlign: TextAlign.center,
                       ),
                     ),
@@ -124,9 +124,10 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                             onPressed: () => context.go('/faq'),
                             icon: const Icon(Icons.question_answer, color: Colors.white),
                           ),
-                          const Text(
+                          Text(
                             'FAQ',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(fontSize: accessibilityMode ? 35 : 30, fontWeight: FontWeight.w900, color: Colors.white),
+                          
                           ),
                         ],
                       ),
@@ -140,12 +141,12 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
               ),
               Container(
                 color: Colors.black,
-                child: const Row(
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       '© 2023 Your Company. Alle Rechte vorbehalten.',
-                      style: TextStyle(fontSize: 14, color: Colors.white),
+                       style: TextStyle(fontSize: accessibilityMode ? 16 : 14, fontWeight: FontWeight.w900, color: Colors.white),
                     ),
                   ],
                 ),
