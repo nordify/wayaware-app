@@ -150,7 +150,7 @@ class _AboutPageState extends State<AboutPage>
                       '© 2023 Nordify. Alle Rechte vorbehalten.',
                       style: TextStyle(
                           fontSize: accessibilityMode ? 16 : 14,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white),
                       softWrap: true,
                     ),

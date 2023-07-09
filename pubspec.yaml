@@ -104,6 +104,13 @@ flutter:
     - assets/legend/stairsonlyaccess.png
     - assets/legend/lackofelevators.png
     - assets/legend/limitedparkingspaces.png
+    - assets/legend/inaccessibleentrances.png
+    - assets/legend/lackofvisualaccessibility.png
+    - assets/legend/nohearingassistance.png
+    - assets/legend/unsupportivesurfaces.png
+    - assets/legend/stairsonlyaccess.png
+    - assets/legend/inaccessibleseating.png
+    - assets/legend/noncompliantfacilities.png
 
 
   # The following line ensures that the Material Icons font is
