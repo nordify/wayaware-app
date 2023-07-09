@@ -72,7 +72,6 @@ class _MapPageState extends State<MapPage>
         annotationId: AnnotationId(element.id),
         position: LatLng(element.latitude, element.longitude),
         icon: BitmapDescriptor.markerAnnotationWithHue(element.type.typeColor),
-  
         onTap: () {
           selectedAnnotation = annotationObjects
               .where((annotation) => annotation.id == element.id)
@@ -212,69 +211,84 @@ class _MapPageState extends State<MapPage>
             ],
           ),
         ),
-        body: FutureBuilder(
-            future: getLocationFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done ||
-                  snapshot.hasError) {
-                return Center(
-                  child: OSWidgets.getCircularProgressIndicator(),
-                );
-              }
-              return Stack(
-                children: [
-                  AppleMap(
-                      minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                      onCameraMove: (position) {
-                        cameraPosition = position;
-                      },
-                      onCameraIdle: () {
-                        _loadAnnotations(cameraPosition);
-                      },
-                      onMapCreated: (controller) {
-                        _loadAnnotations(CameraPosition(
-                            target: LatLng(snapshot.data!.latitude,
-                                snapshot.data!.longitude)));
-                      },
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(snapshot.data!.latitude,
-                              snapshot.data!.longitude),
-                          zoom: 14),
-                      mapStyle: MapStyle.light,
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      compassEnabled: false,
-                      pitchGesturesEnabled: true,
-                      gestureRecognizers: <Factory<
-                          OneSequenceGestureRecognizer>>{
-                        Factory<OneSequenceGestureRecognizer>(
-                          () => EagerGestureRecognizer(),
+        body: Stack(
+          children: [
+            FutureBuilder(
+                future: getLocationFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done ||
+                      snapshot.hasError) {
+                    return Center(
+                      child: OSWidgets.getCircularProgressIndicator(),
+                    );
+                  }
+                  return Stack(
+                    children: [
+                      Positioned.fill(
+                        child: AppleMap(
+                            minMaxZoomPreference:
+                                MinMaxZoomPreference.unbounded,
+                            onCameraMove: (position) {
+                              cameraPosition = position;
+                            },
+                            onCameraIdle: () {
+                              _loadAnnotations(cameraPosition);
+                            },
+                            onMapCreated: (controller) {
+                              _loadAnnotations(CameraPosition(
+                                  target: LatLng(snapshot.data!.latitude,
+                                      snapshot.data!.longitude)));
+                            },
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(snapshot.data!.latitude,
+                                    snapshot.data!.longitude),
+                                zoom: 14),
+                            mapStyle: MapStyle.light,
+                            myLocationEnabled: true,
+                            myLocationButtonEnabled: true,
+                            compassEnabled: false,
+                            pitchGesturesEnabled: true,
+                            gestureRecognizers: <Factory<
+                                OneSequenceGestureRecognizer>>{
+                              Factory<OneSequenceGestureRecognizer>(
+                                () => EagerGestureRecognizer(),
+                              ),
+                            },
+                            annotations: _annotations.toSet()),
+                      ),
+                      Positioned.fromRect(
+                        rect: Rect.fromLTRB(
+                            MediaQuery.of(context).size.width * 19 / 20,
+                            0,
+                            MediaQuery.of(context).size.width,
+                            MediaQuery.of(context).size.height),
+                        child: Container(
+                          color: Colors.transparent,
                         ),
-                      },
-                      annotations: _annotations.toSet()),
-                  Positioned.fromRect(
-                    rect: Rect.fromLTRB(
-                        MediaQuery.of(context).size.width * 19 / 20,
-                        0,
-                        MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height),
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  Positioned.fromRect(
-                    rect: Rect.fromLTRB(
-                        0,
-                        0,
-                        MediaQuery.of(context).size.width * 1 / 20,
-                        MediaQuery.of(context).size.height),
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ],
-              );
-            }),
+                      ),
+                      Positioned.fromRect(
+                        rect: Rect.fromLTRB(
+                            0,
+                            0,
+                            MediaQuery.of(context).size.width * 1 / 20,
+                            MediaQuery.of(context).size.height),
+                        child: Container(
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+            if (panelController.isPanelOpen)
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    panelController.close();
+                  },
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
