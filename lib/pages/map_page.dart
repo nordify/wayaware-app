@@ -1,10 +1,16 @@
-import 'package:apple_maps_flutter/apple_maps_flutter.dart';
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:wayaware/backend/annotations.dart';
+import 'package:wayaware/backend/models/annotation_type.dart';
 import 'package:wayaware/utils/os_widgets.dart';
 import 'package:flutter/services.dart' show ByteData, Uint8List, rootBundle;
+import 'package:apple_maps_flutter/apple_maps_flutter.dart';
+import 'package:wayaware/backend/models/annotation.dart' as backend;
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -16,31 +22,57 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage>
     with AutomaticKeepAliveClientMixin<MapPage> {
   late final Future<Position?> getLocationFuture;
+  late CameraPosition cameraPosition;
 
   late Uint8List testImgBytes;
 
+  bool canLoadAnnotations = true;
+  void startTimer() {
+    Timer timer =
+        Timer.periodic(const Duration(milliseconds: 500), (Timer timer) {
+      canLoadAnnotations = true;
+    });
+  }
+
   // ignore: unused_field
-  final Set<Annotation> _annotations = {};
-  /*Future<void> _loadAnnotations() async {
-    for (final pictureId in _pictureCache) {
-      final picture = await _loadPicture(pictureId);
-      if (!mounted) return;
-      final pictureBytes = await picture?.image?.bytes(160);
+  List<Annotation> _annotations = [];
+  Future<void> _loadAnnotations(CameraPosition pos) async {
+    int deviceSizeConstant = 550;
+    double minLatitude =
+        pos.target.latitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double maxLatitude =
+        pos.target.latitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double minLongitude =
+        pos.target.longitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double maxLongitude =
+        pos.target.longitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    List<backend.Annotation> annotationObjects =
+        (await Annotations.getAnnotations(
+                amount: 100,
+                minLatitude: minLatitude,
+                maxLatitude: maxLatitude,
+                minLongitude: minLongitude,
+                maxLongitude: maxLongitude))
+            .toList();
 
-      if (pictureBytes == null || picture?.location == null) continue;
-
-      // ignore: use_build_context_synchronously
-      final annotation = Annotation(
-          annotationId: AnnotationId(pictureId),
-          onTap: () {},
-          draggable: false,
-          position: LatLng(picture?.location?.latitude ?? 0.0,
-              picture?.location?.longitude ?? 0.0),
-          icon: BitmapDescriptor.fromBytes(pictureBytes));
-      _annotations.add(annotation);
-    }
+    List<Annotation> _newAnnotations = [];
+    annotationObjects.forEach((element) {
+      if (_annotations
+          .map((e) => e.annotationId)
+          .contains(AnnotationId(element.id))) return;
+      print("test");
+      Color annotationColor;
+      _annotations.add(Annotation(
+        annotationId: AnnotationId(element.id),
+        position: LatLng(element.latitude, element.longitude),
+        icon: BitmapDescriptor.markerAnnotationWithHue(HSVColor.fromColor(Colors.red).hue),
+        onTap: () {},
+      ));
+    });
+    //_annotations = _newAnnotations;
+    _newAnnotations = [];
     setState(() {});
-  }*/
+  }
 
   Future<Position?> _getCurrentLocation() async {
     testImgBytes = await getImageBytesFromAsset("assets/IMG_7265.JPG");
@@ -75,7 +107,6 @@ class _MapPageState extends State<MapPage>
   @override
   void initState() {
     super.initState();
-
     getLocationFuture = _getCurrentLocation();
   }
 
@@ -106,8 +137,12 @@ class _MapPageState extends State<MapPage>
             return Stack(
               children: [
                 AppleMap(
+                    minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                     onCameraMove: (position) {
-                      print(position);
+                      cameraPosition = position;
+                    },
+                    onCameraIdle: () {
+                      _loadAnnotations(cameraPosition);
                     },
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
@@ -123,7 +158,7 @@ class _MapPageState extends State<MapPage>
                         () => EagerGestureRecognizer(),
                       ),
                     },
-                    annotations: _annotations),
+                    annotations: _annotations.toSet()),
                 Positioned.fromRect(
                   rect: Rect.fromLTRB(
                       MediaQuery.of(context).size.width * 19 / 20,
