@@ -31,8 +31,14 @@ class LegendPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text('Legend'),
-          ),
+              elevation: 0,
+              toolbarHeight: 80,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              title: Text(
+                "Map Legend",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: accessibilityMode ? 40 : 20),
+              )),
           body: const SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(right: 20, left: 20, top: 40, bottom: 100), // Adjust the bottom padding
