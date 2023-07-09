@@ -5,7 +5,6 @@ import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/bloc/settings_mode_bloc.dart';
 import 'package:wayaware/bloc/app_state_cubit.dart';
 import 'package:wayaware/bloc/auth_user_bloc.dart';
-import 'package:wayaware/pages/contact_page.dart';
 import 'package:wayaware/pages/create_annotation/camera_page.dart';
 import 'package:wayaware/pages/create_annotation/create_annotation_page.dart';
 import 'package:wayaware/pages/faq_page.dart';
@@ -41,13 +40,8 @@ class AppRouter {
               );
             },
             routes: [
-              ShellRoute(builder: (context, state, child) => WNavbar(child: child), routes: [
-                GoRoute(
-                  path: 'faq', builder: (context, state) => const FaqPage()),
               GoRoute(
-                  path: 'contact',
-                  builder: (context, state) => const ContactPage()),
-              ]),
+                  path: 'faq', builder: (context, state) => const FaqPage()),
               GoRoute(
                   path: 'about',
                   builder: (context, state) => const AboutPage()),
