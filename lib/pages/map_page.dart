@@ -71,8 +71,8 @@ class _MapPageState extends State<MapPage>
       _annotations.add(Annotation(
         annotationId: AnnotationId(element.id),
         position: LatLng(element.latitude, element.longitude),
-        icon: BitmapDescriptor.markerAnnotationWithHue(
-            HSVColor.fromColor(Colors.red).hue),
+        icon: BitmapDescriptor.markerAnnotationWithHue(element.type.typeColor),
+  
         onTap: () {
           selectedAnnotation = annotationObjects
               .where((annotation) => annotation.id == element.id)
@@ -178,23 +178,28 @@ class _MapPageState extends State<MapPage>
                             children: List.generate(
                                 selectedAnnotation!.images.length,
                                 (index) => GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                      return PhotoViewer(image: selectedAnnotation!
-                                                  .images[index]);
-                                    },));
-                                  },
-                                  child: Padding(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return PhotoViewer(
+                                                image: selectedAnnotation!
+                                                    .images[index]);
+                                          },
+                                        ));
+                                      },
+                                      child: Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 10),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           child: Image(
                                               image: selectedAnnotation!
                                                   .images[index]),
                                         ),
                                       ),
-                                )),
+                                    )),
                           )
                         ],
                       );
