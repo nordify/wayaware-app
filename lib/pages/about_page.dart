@@ -47,7 +47,7 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
               children: [
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(top: 20, bottom: 15),
+                  padding: const EdgeInsets.only(right: 178, top: 20, bottom: 5),
                   child: const Text(
                     'Wayaware',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
@@ -55,39 +55,45 @@ class _AboutPageState extends State<AboutPage> with AutomaticKeepAliveClientMixi
                 ),
                 Container(
                   color: Colors.white,
+                  padding: EdgeInsets.only(left: 5, right: 15),
                   child: const Text(
-                    'Bei der Awareness-App setzen wir uns für die Förderung des Bewusstseins und der Unterstützung von Menschen mit Behinderungen ein. Unser Ziel ist es, Barrieren abzubauen, Vorurteile zu bekämpfen und eine inklusive Gesellschaft zu schaffen, in der alle Menschen gleiche Chancen und Teilhabemöglichkeiten haben.',
+                    'At Wayaware, we are committed to raising awareness and supporting people with disabilities. Our aim is to break down barriers, combat prejudices and create an inclusive society in which all people have equal opportunities and opportunities to participate.',
                     style: TextStyle(fontSize: 18),
+                //    textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(top: 30, bottom: 15),
+                  padding: const EdgeInsets.only(right: 101, top: 30, bottom: 5),
                   child: const Text(
-                    'Unsere Funktionen',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Functionalities',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Container(
                   color: Colors.white,
+                  padding: EdgeInsets.only(left: 5, right: 15),
                   child: const Text(
-                    'Die Awareness-App bietet eine Vielzahl von Funktionen, um das Bewusstsein zu schärfen und Informationen über verschiedene Arten von Behinderungen bereitzustellen. Von Erfahrungsberichten und Geschichten von Menschen mit Behinderungen bis hin zu Ressourcen und Tipps zur Barrierefreiheit – unsere App ist ein umfassendes Werkzeug für alle, die mehr über diese wichtigen Themen erfahren möchten.',
+                    'Wayaware offers a variety of functions to raise awareness and provide information about different types of disabilities. From stories and stories of people with disabilities to resources and tips on accessibility, our app is a comprehensive tool for anyone who wants to learn more about these important topics.',
                     style: TextStyle(fontSize: 18),
+                 //   textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(top: 30, bottom: 15),
+                  padding: const EdgeInsets.only(right: 151, top: 30, bottom: 5),
                   child: const Text(
-                    'Unterstützen Sie uns!',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Support us!',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Container(
                   color: Colors.white,
+                  padding: EdgeInsets.only(left: 5, right: 15),
                   child: const Text(
-                    'Wir freuen uns über Ihre Unterstützung bei der Verbreitung des Bewusstseins für Menschen mit Behinderungen. Teilen Sie unsere App mit Ihren Freunden und Familienmitgliedern, engagieren Sie sich in lokalen Gemeinschaften und setzen Sie sich für barrierefreie Umgebungen ein.',
+                    'We appreciate your support in raising awareness for people with disabilities. Share our app with your friends and family, get involved in local communities and promote accessible environments.',
                     style: TextStyle(fontSize: 18),
+                   // textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
