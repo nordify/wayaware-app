@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wayaware/backend/annotations.dart';
 
 enum AnnotationType {
@@ -39,6 +40,33 @@ extension TypeExtensions on AnnotationType {
         return "Non compliant facilities";
       default:
         return "Select a type";
+    }
+  }
+
+  double get typeColor {
+    switch (this) {
+      case AnnotationType.inaccessibleEntrances:
+        return HSVColor.fromColor(Colors.red).hue;
+      case AnnotationType.lackOfElevators:
+        return HSVColor.fromColor(Colors.teal).hue;
+      case AnnotationType.limitedParkingSpaces:
+       return HSVColor.fromColor(Colors.amber).hue;
+      case AnnotationType.absenceOfRestroomAccessibility:
+        return HSVColor.fromColor(Colors.deepPurple).hue;
+      case AnnotationType.lackOfVisualAccessibility:
+        return HSVColor.fromColor(Colors.brown).hue;
+      case AnnotationType.noHearingAssistance:
+        return HSVColor.fromColor(Colors.lightBlue).hue;
+      case AnnotationType.unsupportiveSurfaces:
+        return HSVColor.fromColor(Colors.yellow).hue;
+      case AnnotationType.stairsOnlyAccess:
+        return HSVColor.fromColor(Colors.green).hue;
+      case AnnotationType.inaccessibleSeating:
+        return HSVColor.fromColor(Colors.deepOrange).hue;
+      case AnnotationType.nonCompliantFacilities:
+        return HSVColor.fromColor(Colors.lime).hue;
+      default:
+        return HSVColor.fromColor(Colors.white).hue;
     }
   }
 }
