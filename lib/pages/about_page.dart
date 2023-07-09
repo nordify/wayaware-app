@@ -119,21 +119,6 @@ Widget build(BuildContext context) {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      IconButton(
-                        onPressed: () => context.go('/contact'),
-                        icon:
-                            const Icon(Icons.contact_mail, color: Colors.white),
-                      ),
-                      const Text(
-                        'Kontakt',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
