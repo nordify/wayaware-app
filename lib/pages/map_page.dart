@@ -24,7 +24,8 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<MapPage> {
+class _MapPageState extends State<MapPage>
+    with AutomaticKeepAliveClientMixin<MapPage> {
   late final Future<Position?> getLocationFuture;
   late CameraPosition cameraPosition;
 
@@ -36,7 +37,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
 
   bool canLoadAnnotations = true;
   void startTimer() {
-    Timer timer = Timer.periodic(const Duration(milliseconds: 500), (Timer timer) {
+    Timer timer =
+        Timer.periodic(const Duration(milliseconds: 500), (Timer timer) {
       canLoadAnnotations = true;
     });
   }
@@ -46,23 +48,35 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
   List<backend.Annotation> annotationObjects = [];
   Future<void> _loadAnnotations(CameraPosition pos) async {
     int deviceSizeConstant = 550;
-    double minLatitude = pos.target.latitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
-    double maxLatitude = pos.target.latitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
-    double minLongitude = pos.target.longitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
-    double maxLongitude = pos.target.longitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double minLatitude =
+        pos.target.latitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double maxLatitude =
+        pos.target.latitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double minLongitude =
+        pos.target.longitude - (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
+    double maxLongitude =
+        pos.target.longitude + (1 / pow(2, pos.zoom) * deviceSizeConstant) / 2;
     annotationObjects = (await Annotations.getAnnotations(
-            amount: 100, minLatitude: minLatitude, maxLatitude: maxLatitude, minLongitude: minLongitude, maxLongitude: maxLongitude))
+            amount: 100,
+            minLatitude: minLatitude,
+            maxLatitude: maxLatitude,
+            minLongitude: minLongitude,
+            maxLongitude: maxLongitude))
         .toList();
 
     annotationObjects.forEach((element) {
-      if (_annotations.map((e) => e.annotationId).contains(AnnotationId(element.id))) return;
+      if (_annotations
+          .map((e) => e.annotationId)
+          .contains(AnnotationId(element.id))) return;
       _annotations.add(Annotation(
         annotationId: AnnotationId(element.id),
         position: LatLng(element.latitude, element.longitude),
         icon: BitmapDescriptor.markerAnnotationWithHue(element.type.typeColor),
         onTap: () {
           setState(() {
-            selectedAnnotation = annotationObjects.where((annotation) => annotation.id == element.id).first;
+            selectedAnnotation = annotationObjects
+                .where((annotation) => annotation.id == element.id)
+                .first;
           });
           panelController.open();
         },
@@ -90,7 +104,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
     return await Geolocator.getCurrentPosition();
   }
@@ -139,6 +154,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
             },
             backdropTapClosesPanel: true,
             backdropEnabled: true,
+            backdropOpacity: 0.1,
             controller: panelController,
             minHeight: 0,
             parallaxEnabled: true,
@@ -157,14 +173,20 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                             children: [
                               Text(
                                 selectedAnnotation!.type.typeName,
-                                style: TextStyle(fontSize: accessibilityMode ? 30 : 20, fontWeight: FontWeight.w800, color: Colors.black),
+                                style: TextStyle(
+                                    fontSize: accessibilityMode ? 30 : 20,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black),
                               ),
                               const SizedBox(
                                 height: 15,
                               ),
                               Text(
                                 selectedAnnotation!.description,
-                                style: TextStyle(fontSize: accessibilityMode ? 25 : 15, fontWeight: FontWeight.w400, color: Colors.grey.shade600),
+                                style: TextStyle(
+                                    fontSize: accessibilityMode ? 25 : 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey.shade600),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -174,17 +196,24 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                                     selectedAnnotation!.images.length,
                                     (index) => GestureDetector(
                                           onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
                                               builder: (context) {
-                                                return PhotoViewer(image: selectedAnnotation!.images[index]);
+                                                return PhotoViewer(
+                                                    image: selectedAnnotation!
+                                                        .images[index]);
                                               },
                                             ));
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 10),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(20),
-                                              child: Image(image: selectedAnnotation!.images[index]),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: Image(
+                                                  image: selectedAnnotation!
+                                                      .images[index]),
                                             ),
                                           ),
                                         )),
@@ -205,7 +234,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                 FutureBuilder(
                     future: getLocationFuture,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done || snapshot.hasError) {
+                      if (snapshot.connectionState != ConnectionState.done ||
+                          snapshot.hasError) {
                         return Center(
                           child: OSWidgets.getCircularProgressIndicator(),
                         );
@@ -214,7 +244,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                         children: [
                           Positioned.fill(
                             child: AppleMap(
-                                minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                                minMaxZoomPreference:
+                                    MinMaxZoomPreference.unbounded,
                                 onCameraMove: (position) {
                                   cameraPosition = position;
                                 },
@@ -222,15 +253,21 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                                   _loadAnnotations(cameraPosition);
                                 },
                                 onMapCreated: (controller) {
-                                  _loadAnnotations(CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude)));
+                                  _loadAnnotations(CameraPosition(
+                                      target: LatLng(snapshot.data!.latitude,
+                                          snapshot.data!.longitude)));
                                 },
-                                initialCameraPosition: CameraPosition(target: LatLng(snapshot.data!.latitude, snapshot.data!.longitude), zoom: 14),
+                                initialCameraPosition: CameraPosition(
+                                    target: LatLng(snapshot.data!.latitude,
+                                        snapshot.data!.longitude),
+                                    zoom: 14),
                                 mapStyle: MapStyle.light,
                                 myLocationEnabled: true,
                                 myLocationButtonEnabled: true,
                                 compassEnabled: false,
                                 pitchGesturesEnabled: true,
-                                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                                gestureRecognizers: <Factory<
+                                    OneSequenceGestureRecognizer>>{
                                   Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer(),
                                   ),
@@ -238,14 +275,21 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
                                 annotations: _annotations.toSet()),
                           ),
                           Positioned.fromRect(
-                            rect: Rect.fromLTRB(MediaQuery.of(context).size.width * 19 / 20, 0, MediaQuery.of(context).size.width,
+                            rect: Rect.fromLTRB(
+                                MediaQuery.of(context).size.width * 19 / 20,
+                                0,
+                                MediaQuery.of(context).size.width,
                                 MediaQuery.of(context).size.height),
                             child: Container(
                               color: Colors.transparent,
                             ),
                           ),
                           Positioned.fromRect(
-                            rect: Rect.fromLTRB(0, 0, MediaQuery.of(context).size.width * 1 / 20, MediaQuery.of(context).size.height),
+                            rect: Rect.fromLTRB(
+                                0,
+                                0,
+                                MediaQuery.of(context).size.width * 1 / 20,
+                                MediaQuery.of(context).size.height),
                             child: Container(
                               color: Colors.transparent,
                             ),

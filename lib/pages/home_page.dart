@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:wayaware/bloc/user_settings_bloc.dart';
 import 'package:wayaware/pages/about_page.dart';
 import 'package:wayaware/pages/map_page.dart';
 import 'package:wayaware/pages/settings_page.dart';
@@ -30,59 +32,66 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: PreloadPageView(
-        physics: const ClampingScrollPhysics(),
-        controller: _pageController,
-        onPageChanged: (index) {
-          if (!_pageSwitchFromDock) {
-            _dockController.moveSliderTo(index < 2 ? index : index + 1);
-          }
-          if (_pageSwitchFromDock) {
-            if (_currentScreen == index) {
-              _pageSwitchFromDock = false;
-            }
-          }
-        },
-        preloadPagesCount: 4,
-        children: const [MapPage(), StatsPage(), AboutPage(), SettingsPage()],
-      ),
-      bottomNavigationBar: Dock(
-        controller: _dockController,
-        initialIndex: _currentScreen,
-        onTap: (index) {
-          _pageSwitchFromDock = true;
+    return BlocBuilder<UserSettingsBloc, Map<String, bool>>(
+      builder: (context, state) {
+        final accessibilityMode = state['accessibility_mode'] ?? false;
 
-          if (_currentScreen != index) {
-            _currentScreen = index;
-          }
-          _pageController.animateToPage(_currentScreen, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-        },
-        items: [
-          DockTabItem(icon: Icons.map_rounded),
-          DockTabItem(icon: Icons.show_chart_rounded),
-          DockFunctionItem(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add_circle,
-                      color: Colors.black,
+        return Scaffold(
+          extendBody: true,
+          body: PreloadPageView(
+            physics: const ClampingScrollPhysics(),
+            controller: _pageController,
+            onPageChanged: (index) {
+              if (!_pageSwitchFromDock) {
+                _dockController.moveSliderTo(index < 2 ? index : index + 1);
+              }
+              if (_pageSwitchFromDock) {
+                if (_currentScreen == index) {
+                  _pageSwitchFromDock = false;
+                }
+              }
+            },
+            preloadPagesCount: 4,
+            children: const [MapPage(), StatsPage(), AboutPage(), SettingsPage()],
+          ),
+          bottomNavigationBar: Dock(
+            accessibility_mode: accessibilityMode,
+            controller: _dockController,
+            initialIndex: _currentScreen,
+            onTap: (index) {
+              _pageSwitchFromDock = true;
+
+              if (_currentScreen != index) {
+                _currentScreen = index;
+              }
+              _pageController.animateToPage(_currentScreen, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+            },
+            items: [
+              DockTabItem(icon: Icons.map_rounded),
+              DockTabItem(icon: Icons.show_chart_rounded),
+              DockFunctionItem(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                      child: const Center(
+                        child: Icon(
+                          Icons.add_circle,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              function: () {
-                HapticFeedback.mediumImpact();
-                context.go('/createAnnotation');
-              }),
-          DockTabItem(icon: Icons.info_rounded),
-          DockTabItem(icon: Icons.settings_rounded),
-        ],
-      ),
+                  function: () {
+                    HapticFeedback.mediumImpact();
+                    context.go('/createAnnotation');
+                  }),
+              DockTabItem(icon: Icons.info_rounded),
+              DockTabItem(icon: Icons.settings_rounded),
+            ],
+          ),
+        );
+      }
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:wayaware/utils/constants.dart';
 import 'package:wayaware/utils/dock_controller.dart';
 
 class Dock extends StatefulWidget {
+  final bool accessibility_mode;
   final DockController? controller;
   final int initialIndex;
   final List<DockItem> items;
@@ -14,6 +15,7 @@ class Dock extends StatefulWidget {
 
   Dock({
     super.key,
+    this.accessibility_mode = false,
     this.controller,
     required this.initialIndex,
     required this.items,
@@ -176,6 +178,7 @@ class DockState extends State<Dock> with TickerProviderStateMixin {
       switch (item.runtimeType) {
         case DockTabItem:
           _DockTabTile tile = _DockTabTile(
+            accessibility_mode: widget.accessibility_mode,
             icon: item.icon,
             width: width,
             callback: () {
@@ -218,10 +221,15 @@ abstract class _DockTile extends StatelessWidget {
 }
 
 class _DockTabTile extends _DockTile {
+  bool accessibility_mode;
   final void Function() callback;
   Widget? child;
   _DockTabTile(
-      {super.icon, required super.width, required this.callback, this.child});
+      {super.icon,
+      required super.width,
+      required this.callback,
+      this.child,
+      this.accessibility_mode = false});
 
   @override
   Widget build(BuildContext context) {
@@ -231,11 +239,14 @@ class _DockTabTile extends _DockTile {
       child: Container(
         width: width,
         color: Colors.transparent,
-        child: child ??
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
+        child: Transform.scale(
+          scale: accessibility_mode ? 1.5 : 1,
+          child: child ??
+              Icon(
+                icon,
+                color: Colors.white,
+              ),
+        ),
       ),
     );
   }
