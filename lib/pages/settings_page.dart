@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Senior Mode",
+                    Text("Accessibility Mode",
                         style: TextStyle(
                             fontSize: accessibilityMode ? 30 : 20,
                             fontWeight: FontWeight.bold)),
@@ -64,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage>
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
-                    "Introducing our Senior Mode, designed specifically to enhance the accessibility and usability of our product for seniors. This specialized mode is perfect for individuals who may have difficulty with small text or complex interfaces.",
+                    "Introducing our Accessibility Mode, designed specifically to enhance the accessibility and usability of our product for seniors and people with disabilities. This specialized mode is perfect for individuals who may have difficulty with small text or complex interfaces.",
                     style: TextStyle(fontSize: accessibilityMode ? 25 : 16),
                     softWrap: true),
               ),
