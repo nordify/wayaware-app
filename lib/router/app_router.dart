@@ -57,7 +57,7 @@ class AppRouter {
                   routes: [
                     GoRoute(
                         path: 'camera',
-                        builder: (context, state) => CameraPage())
+                        builder: (context, state) => BlocProvider.value(value: _userSettingsBloc!, child: CameraPage()))
                   ])
             ]),
         GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
